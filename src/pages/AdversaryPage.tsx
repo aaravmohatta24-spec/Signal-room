@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Check, CircleAlert, Crosshair, Gauge, Link2, Skull, Upload, X } from "lucide-react";
 
 import Layout from "@/components/Layout";
+import { RaceView } from "@/components/adversary/race-view";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { ActionButton } from "@/components/ui/action-button";
 import { AttackChartView, EquityCurve } from "@/components/adversary/charts";
@@ -62,6 +63,23 @@ const VERDICT_STYLE = {
 const percent = (v: number) => `${v >= 0 ? "+" : ""}${(v * 100).toFixed(1)}%`;
 
 export default function AdversaryPage() {
+  // ?race=1 means a whole field was handed over by the Strategy Maker. That is
+  // a different job from the single-strategy workbench below — a field is
+  // ranked against itself, not tuned parameter by parameter — so it gets its
+  // own view rather than being crammed into this one.
+  const isRace = typeof window !== "undefined" && window.location.hash.includes("race=1");
+  if (isRace) {
+    return (
+      <Layout showBackLink>
+        <RaceView />
+      </Layout>
+    );
+  }
+
+  return <AdversaryWorkbench />;
+}
+
+function AdversaryWorkbench() {
   const fileInput = useRef<HTMLInputElement>(null);
   const [session, store] = useSession();
 

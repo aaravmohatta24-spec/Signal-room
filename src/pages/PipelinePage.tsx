@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { ArrowUpRight, ChevronRight, CircleAlert, Sparkles, Swords } from "lucide-react";
 
 import Layout from "@/components/Layout";
@@ -9,29 +10,46 @@ import {
   INSTRUMENTS,
   instrumentByTicker,
   loadInstrument,
-  maxLookbackFor,
   type AssetClass
 } from "@/lib/adversary/instruments";
-import { sampleStrategies } from "@/lib/adversary/generator";
+import { buildPool, type PoolCandidate } from "@/lib/adversary/pool";
+import { savePool } from "@/lib/adversary/handoff";
 import { buildPermalink } from "@/lib/adversary/permalink";
-import { describeSpec, type StrategySpec } from "@/lib/adversary/spec";
 import { cn } from "@/lib/utils";
 
 const ORDER: AssetClass[] = ["index", "stock", "forex", "commodity"];
-const COUNTS = [5, 10, 14, 20];
+const COUNTS = [6, 10, 14, 20];
+
+const FAMILY_LABEL: Record<string, string> = {
+  trend: "Trend",
+  "mean-reversion": "Mean reversion",
+  momentum: "Momentum",
+  breakout: "Breakout",
+  volatility: "Volatility",
+  generated: "Search draw"
+};
+
+const sizingText = (candidate: PoolCandidate) => {
+  const s = candidate.spec.sizing;
+  if (s.kind === "fixed_fraction") return `${s.pct}% of capital per position`;
+  if (s.kind === "inverse_volatility") return `Sized inversely to ${s.lookback}-day volatility`;
+  return "Equal weight per signal";
+};
 
 /**
- * Stage one on its own page.
+ * Stage one, on its own page.
  *
  * This deliberately stops after generating. Nothing is attacked and nothing is
- * backtested here — a generated rule set is a claim, and the point of keeping
- * the stages apart is that the user decides which claim is worth the cost of
- * testing rather than being handed a winner by a pipeline they did not steer.
+ * ranked here — a generated rule set is a claim, and keeping the stages apart
+ * means the user decides which claims are worth the cost of testing rather
+ * than being handed a winner by a pipeline they did not steer.
  */
 export default function PipelinePage() {
+  const navigate = useNavigate();
+
   const [ticker, setTicker] = useState("SPY");
   const [count, setCount] = useState(14);
-  const [specs, setSpecs] = useState<StrategySpec[] | null>(null);
+  const [pool, setPool] = useState<PoolCandidate[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -52,16 +70,43 @@ export default function PipelinePage() {
     setLoading(true);
     setError(null);
     try {
-      // Lookbacks are capped against the series length so a generated rule
-      // cannot ask for more history than the instrument actually has.
       const bars = await loadInstrument(ticker);
-      setSpecs(sampleStrategies(count, ticker, Date.now() % 1_000_000, maxLookbackFor(bars.close.length)));
+      // Building the pool backtests every candidate once to discard rules that
+      // never fire, so this is real work rather than a formatting pass.
+      const built = buildPool(ticker, instrument.assetClass, count, Date.now() % 1_000_000, bars);
+      if (built.length === 0) {
+        setError(`No rule in the grammar trades often enough on ${instrument.label} to be worth testing.`);
+        setPool(null);
+      } else {
+        setPool(built);
+      }
     } catch {
       setError(`Could not load price data for ${ticker}.`);
     } finally {
       setLoading(false);
     }
   };
+
+  const sendAll = () => {
+    if (!pool || !instrument) return;
+    const saved = savePool({
+      ticker,
+      assetClass: instrument.assetClass,
+      instrumentLabel: instrument.label,
+      createdAt: new Date().toISOString(),
+      candidates: pool
+    });
+    if (!saved) {
+      setError(
+        "This browser refused to store the field, so it cannot be handed to the Adversary. " +
+          "Send a single strategy with “Attack alone” instead."
+      );
+      return;
+    }
+    navigate("/adversary?race=1");
+  };
+
+  const playbookCount = pool?.filter((c) => c.origin === "playbook").length ?? 0;
 
   return (
     <Layout showBackLink>
@@ -74,11 +119,11 @@ export default function PipelinePage() {
           <h1 className="mt-4 max-w-3xl font-display text-5xl font-semibold leading-[1.02] tracking-[-.018em] text-foreground">
             Pick an instrument.
             <br />
-            <span className="font-normal text-foreground/55">Get a pool of candidate rules.</span>
+            <span className="font-normal text-foreground/55">Get a field of candidate rules.</span>
           </h1>
           <p className="mt-4 max-w-2xl text-sm leading-6 text-muted-foreground">
-            This tool only generates. Nothing here is tested, ranked or endorsed — each rule set is a claim waiting to
-            be attacked. Send the ones you care about to the Adversary.
+            Each candidate arrives with its entry, its exits, its sizing, the premise behind it and the standard
+            objection to it. Nothing here is tested — send the field to the Adversary and let the ordeals decide.
           </p>
         </ScrollReveal>
 
@@ -88,25 +133,25 @@ export default function PipelinePage() {
               {grouped.map(([assetClass, list]) => (
                 <div key={assetClass}>
                   <div className="font-mono text-[9px] uppercase tracking-[.14em] text-zinc-600">
-                    {ASSET_CLASS_LABEL[assetClass]}
+                    {ASSET_CLASS_LABEL[assetClass]} · {list.length}
                   </div>
-                  <div className="mt-2 flex flex-wrap gap-2">
+                  <div className="mt-2 flex flex-wrap gap-1.5">
                     {list.map((i) => (
                       <button
                         key={i.ticker}
                         onClick={() => {
                           setTicker(i.ticker);
-                          setSpecs(null);
+                          setPool(null);
                         }}
-                        title={i.note}
+                        title={`${i.label} — ${i.note}`}
                         className={cn(
-                          "min-h-[44px] rounded-full border px-4 py-2 text-xs transition-colors",
+                          "min-h-[36px] rounded-full border px-3 py-1.5 font-mono text-[11px] transition-colors",
                           ticker === i.ticker
                             ? "border-signal/60 bg-signal/10 text-foreground"
                             : "border-border text-muted-foreground hover:border-zinc-600"
                         )}
                       >
-                        {i.label}
+                        {i.ticker}
                       </button>
                     ))}
                   </div>
@@ -115,14 +160,14 @@ export default function PipelinePage() {
             </div>
 
             <div className="mt-5 border-t border-border pt-4">
-              <div className="font-mono text-[9px] uppercase tracking-[.14em] text-zinc-600">How many</div>
+              <div className="font-mono text-[9px] uppercase tracking-[.14em] text-zinc-600">Field size</div>
               <div className="mt-2 flex flex-wrap gap-2">
                 {COUNTS.map((n) => (
                   <button
                     key={n}
                     onClick={() => setCount(n)}
                     className={cn(
-                      "min-h-[44px] rounded-full border px-4 py-2 text-xs transition-colors",
+                      "min-h-[40px] rounded-full border px-4 py-2 text-xs transition-colors",
                       count === n
                         ? "border-signal/60 bg-signal/10 text-foreground"
                         : "border-border text-muted-foreground hover:border-zinc-600"
@@ -137,14 +182,15 @@ export default function PipelinePage() {
             <div className="mt-5 flex flex-wrap items-center justify-between gap-4 border-t border-border pt-4">
               <p className="text-xs leading-5 text-muted-foreground">
                 {instrument
-                  ? `${instrument.label} · ${instrument.bars.toLocaleString()} daily bars · ${instrument.source}`
+                  ? `${instrument.label} · ${instrument.bars.toLocaleString()} bars · ${instrument.from} to ${instrument.to}`
                   : "Select an instrument."}
               </p>
               <ActionButton onClick={generate} disabled={!instrument || loading}>
                 <Sparkles size={15} />
-                {loading ? "Loading price data…" : specs ? "Generate a new pool" : "Generate strategies"}
+                {loading ? "Building the field…" : pool ? "Build a new field" : "Build the field"}
               </ActionButton>
             </div>
+
             {error && (
               <p className="mt-4 flex gap-2 text-sm text-red-300">
                 <CircleAlert size={15} className="mt-0.5 shrink-0" />
@@ -154,59 +200,95 @@ export default function PipelinePage() {
           </div>
         </ScrollReveal>
 
-        {specs && (
+        {pool && (
           <ScrollReveal variant="drift" className="mt-10">
-            <div className="flex items-baseline justify-between gap-4">
-              <h2 className="font-display text-2xl font-semibold tracking-[-.018em] text-foreground">
-                {specs.length} candidates
-              </h2>
-              <span className="font-mono text-[10px] uppercase tracking-[.14em] text-muted-foreground">
-                Untested
-              </span>
+            <div className="flex flex-wrap items-end justify-between gap-4">
+              <div>
+                <h2 className="font-display text-2xl font-semibold tracking-[-.018em] text-foreground">
+                  {pool.length} candidates
+                </h2>
+                <p className="mt-1 text-xs leading-5 text-muted-foreground">
+                  {playbookCount} from the playbook, {pool.length - playbookCount} drawn by search. None tested yet.
+                </p>
+              </div>
+              <ActionButton onClick={sendAll}>
+                <Swords size={15} />
+                Race all {pool.length} in the Adversary
+              </ActionButton>
             </div>
 
-            <div className="mt-4 space-y-2">
-              {specs.map((spec, index) => (
-                <div key={`${spec.name}-${index}`} className="rounded-[16px] border border-border bg-card p-4">
+            <div className="mt-5 space-y-3">
+              {pool.map((candidate, index) => (
+                <div
+                  key={`${candidate.spec.name}-${index}`}
+                  className="rounded-[18px] border border-border bg-card p-5"
+                >
                   <div className="flex flex-wrap items-start justify-between gap-3">
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-2">
-                        <span className="font-mono text-[10px] text-signal-soft">
-                          {String(index + 1).padStart(2, "0")}
-                        </span>
-                        <span className="text-sm font-medium text-foreground">{spec.name}</span>
-                        <span className="font-mono text-[9px] uppercase tracking-[.1em] text-muted-foreground">
-                          {spec.entry.direction}
-                        </span>
-                      </div>
-                      <p className="mt-1.5 text-xs leading-5 text-muted-foreground">{describeSpec(spec)}</p>
+                    <div className="flex min-w-0 flex-1 flex-wrap items-center gap-2">
+                      <span className="font-mono text-[10px] text-signal-soft">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                      <span className="text-base font-medium text-foreground">{candidate.spec.name}</span>
+                      <span
+                        className={cn(
+                          "rounded-full border px-2 py-0.5 font-mono text-[9px] uppercase tracking-[.1em]",
+                          candidate.origin === "playbook"
+                            ? "border-signal/40 bg-signal/10 text-signal-soft"
+                            : "border-border text-muted-foreground"
+                        )}
+                      >
+                        {FAMILY_LABEL[candidate.family] ?? candidate.family}
+                      </span>
+                      <span className="font-mono text-[9px] uppercase tracking-[.1em] text-zinc-600">
+                        {candidate.spec.entry.direction} · {candidate.tradeCount} trades
+                      </span>
                     </div>
 
                     <a
-                      href={buildPermalink({ spec })}
-                      className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-border px-3 py-2 text-xs text-muted-foreground transition-colors hover:border-signal/40 hover:text-signal-soft"
+                      href={buildPermalink({ spec: candidate.spec })}
+                      className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-border px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:border-signal/40 hover:text-signal-soft"
                     >
-                      <Swords size={13} />
-                      Attack this
+                      Attack alone
                       <ArrowUpRight size={13} />
                     </a>
                   </div>
+
+                  <dl className="mt-4 grid gap-x-8 gap-y-3 sm:grid-cols-2">
+                    <div className="sm:col-span-2">
+                      <dt className="font-mono text-[9px] uppercase tracking-[.12em] text-zinc-600">Rules</dt>
+                      <dd className="mt-1 text-sm leading-6 text-foreground/90">{candidate.description}</dd>
+                    </div>
+                    <div>
+                      <dt className="font-mono text-[9px] uppercase tracking-[.12em] text-zinc-600">Sizing</dt>
+                      <dd className="mt-1 text-sm leading-6 text-muted-foreground">{sizingText(candidate)}</dd>
+                    </div>
+                    <div>
+                      <dt className="font-mono text-[9px] uppercase tracking-[.12em] text-zinc-600">Premise</dt>
+                      <dd className="mt-1 text-sm leading-6 text-muted-foreground">{candidate.premise}</dd>
+                    </div>
+                    <div className="sm:col-span-2">
+                      <dt className="font-mono text-[9px] uppercase tracking-[.12em] text-amber-500/70">
+                        The objection
+                      </dt>
+                      <dd className="mt-1 text-sm leading-6 text-amber-200/70">{candidate.caveat}</dd>
+                    </div>
+                  </dl>
                 </div>
               ))}
             </div>
 
-            <p className="mt-5 flex gap-2 text-xs leading-5 text-muted-foreground">
+            <p className="mt-6 flex gap-2 text-xs leading-5 text-muted-foreground">
               <ChevronRight size={14} className="mt-0.5 shrink-0 text-signal-soft" />
-              These were sampled at random from the rule grammar. A good-looking rule here means nothing yet — that is
-              what the Adversary is for.
+              Trade counts above come from one pass over the full history and are there only to show the rule fires.
+              They are not a result — no cost sensitivity, no regime split, no correction for the search.
             </p>
           </ScrollReveal>
         )}
 
-        {!specs && (
+        {!pool && !loading && (
           <p className="mt-8 flex items-center gap-2 text-sm text-muted-foreground">
             <ChevronRight size={15} className="text-signal-soft" />
-            Choose an instrument above and generate a pool.
+            Choose an instrument above and build a field.
           </p>
         )}
       </section>

@@ -33,6 +33,12 @@ export type PipelineRequest = {
   /** How many strategies to generate. The spec calls for 5–20. */
   poolSize: number;
   seed: number;
+  /**
+   * A pool built elsewhere. When present the worker skips generation and races
+   * exactly these, so the Adversary judges the candidates the Strategy Maker
+   * displayed rather than a fresh draw that merely resembles them.
+   */
+  supplied?: { spec: StrategySpec; origin: "playbook" | "generated" }[];
 };
 
 /** One test in the red-team battery. */
@@ -251,10 +257,16 @@ self.onmessage = async (event: MessageEvent<PipelineRequest>) => {
     const bars = await loadInstrument(ticker);
     const cache = new SignalCache(bars);
 
-    // Stage 1 — build the pool.
-    post({ type: "progress", stage: 1, done: 0, total: poolSize, label: "Generating strategies…" });
-    const pool = buildPool(ticker, assetClass, poolSize, seed, bars);
-    post({ type: "progress", stage: 1, done: pool.length, total: poolSize, label: "Pool assembled." });
+    // Stage 1 — build the pool, unless one was handed in.
+    const supplied = event.data.supplied;
+    post({
+      type: "progress", stage: 1, done: 0, total: supplied?.length ?? poolSize,
+      label: supplied ? "Loading the imported pool…" : "Generating strategies…"
+    });
+    const pool = supplied?.length
+      ? supplied.map((c) => ({ spec: c.spec, origin: c.origin }))
+      : buildPool(ticker, assetClass, poolSize, seed, bars);
+    post({ type: "progress", stage: 1, done: pool.length, total: pool.length, label: "Pool assembled." });
 
     // The control distribution the Adversary measures against.
     post({ type: "progress", stage: 2, done: 0, total: pool.length, label: "Building the null distribution…" });

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { CircleAlert, Gauge, Play } from "lucide-react";
+import { CircleAlert, Gauge, Medal, Play } from "lucide-react";
 
 import Layout from "@/components/Layout";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
@@ -14,6 +14,7 @@ import {
   type AssetClass
 } from "@/lib/adversary/instruments";
 import { readPermalink } from "@/lib/adversary/permalink";
+import { readWinner, type RaceWinner } from "@/lib/adversary/handoff";
 import { SignalCache, type Bars } from "@/lib/adversary/signals";
 import { describeSpec, type ExitRule, type StrategySpec } from "@/lib/adversary/spec";
 import { cn } from "@/lib/utils";
@@ -129,43 +130,52 @@ function ExitToggle({
 
 export default function BackTesterPage() {
   const shared = useMemo(() => readPermalink(), []);
-  const [spec, setSpec] = useState<StrategySpec>(shared?.spec ?? DEFAULT_SPEC);
-  const [imported] = useState(Boolean(shared?.spec));
+  // A race winner takes precedence over a permalink: it is the more specific
+  // intent, and it carries the standings the banner needs to explain itself.
+  const champion = useMemo<RaceWinner | null>(
+    () => (typeof window !== "undefined" && window.location.hash.includes("from=race") ? readWinner() : null),
+    []
+  );
+  const preset = champion?.spec ?? shared?.spec ?? null;
 
-  const [ticker, setTicker] = useState(shared?.spec?.universe ?? "SPY");
+  const [spec, setSpec] = useState<StrategySpec>(preset ?? DEFAULT_SPEC);
+  const [imported] = useState(Boolean(preset));
+
+  const [ticker, setTicker] = useState(champion?.ticker ?? shared?.spec?.universe ?? "SPY");
   const [years, setYears] = useState(10);
   const [capital, setCapital] = useState(100_000);
   const [feeBps, setFeeBps] = useState(10);
   const [slippageBps, setSlippageBps] = useState(5);
-  const [sizingPct, setSizingPct] = useState(
-    spec.sizing.kind === "fixed_fraction" ? spec.sizing.pct : 100
-  );
+  const [sizingPct, setSizingPct] = useState(() => {
+    const sizing = (preset ?? spec).sizing;
+    return sizing.kind === "fixed_fraction" ? sizing.pct : 100;
+  });
 
-  const [stopOn, setStopOn] = useState(spec.exits.some((e) => e.kind === "stop_loss"));
+  const [stopOn, setStopOn] = useState((preset ?? spec).exits.some((e) => e.kind === "stop_loss"));
   const [stopPct, setStopPct] = useState(
-    (spec.exits.find((e) => e.kind === "stop_loss") as { pct: number } | undefined)?.pct ?? 5
+    ((preset ?? spec).exits.find((e) => e.kind === "stop_loss") as { pct: number } | undefined)?.pct ?? 5
   );
-  const [targetOn, setTargetOn] = useState(spec.exits.some((e) => e.kind === "take_profit"));
+  const [targetOn, setTargetOn] = useState((preset ?? spec).exits.some((e) => e.kind === "take_profit"));
   const [targetPct, setTargetPct] = useState(
-    (spec.exits.find((e) => e.kind === "take_profit") as { pct: number } | undefined)?.pct ?? 10
+    ((preset ?? spec).exits.find((e) => e.kind === "take_profit") as { pct: number } | undefined)?.pct ?? 10
   );
-  const [trailOn, setTrailOn] = useState(spec.exits.some((e) => e.kind === "trailing_stop"));
+  const [trailOn, setTrailOn] = useState((preset ?? spec).exits.some((e) => e.kind === "trailing_stop"));
   const [trailPct, setTrailPct] = useState(
-    (spec.exits.find((e) => e.kind === "trailing_stop") as { pct: number } | undefined)?.pct ?? 8
+    ((preset ?? spec).exits.find((e) => e.kind === "trailing_stop") as { pct: number } | undefined)?.pct ?? 8
   );
-  const [timeOn, setTimeOn] = useState(spec.exits.some((e) => e.kind === "time_stop"));
+  const [timeOn, setTimeOn] = useState((preset ?? spec).exits.some((e) => e.kind === "time_stop"));
   const [timeDays, setTimeDays] = useState(
-    (spec.exits.find((e) => e.kind === "time_stop") as { days: number } | undefined)?.days ?? 20
+    ((preset ?? spec).exits.find((e) => e.kind === "time_stop") as { days: number } | undefined)?.days ?? 20
   );
 
   const [result, setResult] = useState<{ bars: Bars; result: BacktestResult; spec: StrategySpec } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
-  // A spec arriving by permalink should replace whatever is on screen.
+  // A spec arriving by handoff should replace whatever is on screen.
   useEffect(() => {
-    if (shared?.spec) setSpec(shared.spec);
-  }, [shared]);
+    if (preset) setSpec(preset);
+  }, [preset]);
 
   const instrument = instrumentByTicker(ticker);
 
@@ -262,11 +272,29 @@ export default function BackTesterPage() {
             <span className="font-normal text-foreground/55">Then read what the rule did.</span>
           </h1>
           <p className="mt-4 max-w-2xl text-sm leading-6 text-muted-foreground">
-            {imported
-              ? "Strategy imported from the Adversary. Adjust the terms below and run it."
-              : "No strategy imported — the default golden cross is loaded. Send one here from the Adversary to test it instead."}
+            {champion
+              ? `Race winner loaded. Its entry, exits and sizing are preset below — change anything you like before running.`
+              : imported
+                ? "Strategy imported from the Adversary. Adjust the terms below and run it."
+                : "No strategy imported — the default golden cross is loaded. Send one here from the Adversary to test it instead."}
           </p>
         </ScrollReveal>
+
+        {champion && (
+          <div className="mt-6 rounded-[16px] border border-emerald-500/40 bg-emerald-950/15 p-4">
+            <div className="flex items-center gap-2">
+              <Medal size={14} className="text-emerald-300" />
+              <span className="font-mono text-[10px] uppercase tracking-[.14em] text-emerald-300">
+                Won a field of {champion.fieldSize} on {champion.instrumentLabel}
+              </span>
+            </div>
+            <p className="mt-2 text-xs leading-5 text-muted-foreground">
+              Survived {champion.survived} of {champion.ordealCount} ordeals. The race measured it over the full
+              history with default costs; what you set below re-tests it on your own terms, so expect the numbers to
+              move.
+            </p>
+          </div>
+        )}
 
         <div className="mt-6 rounded-[16px] border border-border bg-card/60 p-4">
           <div className="font-mono text-[9px] uppercase tracking-[.14em] text-zinc-500">Strategy under test</div>
