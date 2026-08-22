@@ -1,4 +1,4 @@
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, BookOpen } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 
 import Layout from "@/components/Layout";
@@ -160,6 +160,38 @@ export default function Home() {
             <OfferingRow key={offering.name} offering={offering} index={index} />
           ))}
         </div>
+
+        {/* The four rows above describe what each stage does; this points at the
+            page that explains how to actually run them. */}
+        <ScrollReveal variant="settle" className="mt-12">
+          <Link
+            to="/journal"
+            className="group flex flex-col items-start justify-between gap-6 rounded-[28px] border border-border bg-card/70 p-8 transition-colors duration-500 hover:border-signal/40 md:flex-row md:items-center"
+          >
+            <div>
+              <div className="flex items-center gap-3">
+                <BookOpen size={18} className="text-signal-soft" />
+                <span className="font-mono text-[10px] uppercase tracking-[.16em] text-muted-foreground">
+                  New here?
+                </span>
+              </div>
+              <h3 className="mt-3 font-display text-3xl font-semibold tracking-[-.018em] text-foreground">
+                Read the guide before you run anything.
+              </h3>
+              <p className="mt-2 max-w-xl text-sm leading-6 text-muted-foreground">
+                Step by step through all three stages, what every metric means, and why a survivor still has to be
+                paper-traded before it sees real money.
+              </p>
+            </div>
+            <span className="inline-flex shrink-0 items-center gap-2 text-sm font-medium text-foreground/80 transition-colors duration-300 group-hover:text-signal-soft">
+              Open the guide
+              <ArrowUpRight
+                size={16}
+                className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+              />
+            </span>
+          </Link>
+        </ScrollReveal>
 
         {!user && (
           <ScrollReveal variant="settle" className="mt-14">

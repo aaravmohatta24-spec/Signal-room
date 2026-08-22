@@ -69,7 +69,7 @@ export function ProductsMenu() {
 
         <NavigationMenuItem>
           <NavigationMenuLink className={navigationMenuTriggerStyle()} render={<Link to="/journal" />}>
-            Journal
+            Guide
           </NavigationMenuLink>
         </NavigationMenuItem>
       </NavigationMenuList>
