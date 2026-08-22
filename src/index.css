@@ -1,0 +1,203 @@
+/*
+ * New York Times house style.
+ *
+ * The NYT's own faces — Cheltenham (headlines), Franklin Gothic (kickers and
+ * UI) and Imperial (body) — are proprietary and cannot be used here. These are
+ * the closest open equivalents, and they reproduce the same three-part system:
+ * an old-style serif for headlines, a grotesque for furniture, serif body copy.
+ */
+@import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /*
+   * Colour tokens are stored as space-separated RGB channels rather than hex so
+   * Tailwind's alpha modifiers (`bg-card/70`, `border-signal/30`) resolve to
+   * `rgb(<channels> / <alpha>)`. Components may re-scope these locally — the
+   * vendored OriginButton does exactly that.
+   */
+  :root {
+    /* Warmer, slightly browner black than the previous neutral zinc. */
+    --color-background: 12 11 10;
+    --color-foreground: 242 240 236;
+    --color-primary: 242 240 236;
+    --color-secondary: 163 158 150;
+    --color-card: 18 17 15;
+    --color-card-foreground: 242 240 236;
+    --color-muted: 26 24 22;
+    --color-muted-foreground: 156 150 142;
+    --color-accent: 30 28 25;
+    --color-accent-foreground: 242 240 236;
+    /* Raised surfaces (navigation menu popups) sit slightly above the card. */
+    --color-popover: 22 20 18;
+    --color-popover-foreground: 242 240 236;
+    --color-border: 42 39 35;
+    --color-input: 42 39 35;
+    --color-ring: 236 78 2;
+    --color-destructive: 248 113 113;
+    --color-signal: 236 78 2;
+    --color-signal-soft: 255 178 141;
+
+    color-scheme: dark;
+    font-family: "Libre Franklin", "Helvetica Neue", Arial, sans-serif;
+    background: rgb(var(--color-background));
+    color: rgb(var(--color-foreground));
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    background: rgb(var(--color-background));
+  }
+
+  body {
+    margin: 0;
+    min-width: 320px;
+    background-color: rgb(var(--color-background));
+    background-image:
+      /* warm key light from above */
+      radial-gradient(115% 62% at 50% -18%, rgba(236, 78, 2, 0.15), transparent 62%),
+      /* cool counterpoint so the warmth reads as deliberate, not a wash */
+      radial-gradient(70% 48% at 88% 4%, rgba(64, 104, 160, 0.09), transparent 68%),
+      radial-gradient(90% 55% at 8% 22%, rgba(120, 60, 30, 0.08), transparent 70%);
+    background-attachment: fixed;
+  }
+
+  /*
+   * Two fixed texture layers over that wash: a fine grain so the large flat
+   * areas are not perfectly smooth, and a faint grid that fades out below the
+   * fold. Both are decorative and must never intercept clicks.
+   */
+  body::before,
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  body::before {
+    opacity: 0.4;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");
+  }
+
+  body::after {
+    background-image:
+      linear-gradient(rgba(255, 245, 235, 0.022) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 245, 235, 0.022) 1px, transparent 1px);
+    background-size: 72px 72px;
+    -webkit-mask-image: radial-gradient(120% 70% at 50% 0%, #000 15%, transparent 72%);
+    mask-image: radial-gradient(120% 70% at 50% 0%, #000 15%, transparent 72%);
+  }
+
+  /* Keep the app above both texture layers. */
+  #root {
+    position: relative;
+    z-index: 1;
+  }
+
+  button,
+  input {
+    font: inherit;
+  }
+}
+
+@layer components {
+  .eyebrow {
+    @apply inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[.13em] text-signal-soft;
+  }
+
+  /*
+   * Scroll reveals.
+   *
+   * These are CSS transitions rather than JS-driven animations on purpose.
+   * Content starts hidden so it can animate in, which means anything that stops
+   * the animation advancing would hide it permanently — and a JS animation loop
+   * has plenty of ways to stall (a throttled or backgrounded tab stops
+   * requestAnimationFrame outright). The browser owns these transitions, so the
+   * only thing JS has to do is add one class.
+   */
+  .reveal {
+    opacity: 0;
+    transition:
+      opacity 620ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 620ms cubic-bezier(0.16, 1, 0.3, 1),
+      filter 620ms cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+    will-change: opacity, transform;
+  }
+
+  .reveal--rise {
+    transform: translateY(2.25rem);
+    filter: blur(12px);
+  }
+
+  .reveal--drift {
+    transform: translateX(-1.5rem) rotate(-1.2deg);
+    filter: blur(9px);
+  }
+
+  /* Mirror of `drift`, for rows that sit on the opposite side of the page. */
+  .reveal--drift-right {
+    transform: translateX(1.5rem) rotate(1.2deg);
+    filter: blur(9px);
+  }
+
+  .reveal--settle {
+    transform: translateY(1.25rem) scale(1.03);
+    filter: blur(7px);
+  }
+
+  .reveal.is-revealed {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+
+  /*
+   * Drifting background strokes on the auth screen. This is deliberately a CSS
+   * animation: the equivalent JS-driven version ran dozens of concurrent
+   * animations that recalculated stroke geometry every frame, which visibly
+   * stuttered. The browser interpolates these off the main render loop instead.
+   */
+  .signal-path {
+    stroke-dasharray: 180 620;
+    animation: signal-path-drift var(--signal-path-duration, 26s) linear infinite;
+    animation-delay: var(--signal-path-delay, 0s);
+    will-change: stroke-dashoffset;
+  }
+}
+
+@keyframes signal-path-drift {
+  0% {
+    stroke-dashoffset: 800;
+    opacity: 0.12;
+  }
+  50% {
+    opacity: 0.42;
+  }
+  100% {
+    stroke-dashoffset: -800;
+    opacity: 0.12;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .signal-path {
+    animation: none;
+    opacity: 0.22;
+  }
+
+  .reveal {
+    transition: none;
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
