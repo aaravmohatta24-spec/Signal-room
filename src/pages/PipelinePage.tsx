@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Check, ChevronRight, CircleAlert, Skull, Sparkles, Swords, X } from "lucide-react";
+import { ArrowUpRight, Check, ChevronRight, CircleAlert, Skull, Sparkles, Swords, X } from "lucide-react";
 
 import Layout from "@/components/Layout";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
@@ -10,6 +10,7 @@ import { ASSET_CLASS_LABEL, INSTRUMENTS, instrumentByTicker, type AssetClass } f
 import { DEFAULT_COSTS, runBacktest } from "@/lib/adversary/engine";
 import { SignalCache } from "@/lib/adversary/signals";
 import { loadInstrument } from "@/lib/adversary/instruments";
+import { buildPermalink } from "@/lib/adversary/permalink";
 import type { Candidate, PipelineMessage } from "@/lib/adversary/pipeline.worker";
 import { cn } from "@/lib/utils";
 
@@ -301,6 +302,18 @@ export default function PipelinePage() {
                     {c.causeOfDeath && !isWinner && (
                       <p className="mt-2 text-xs leading-5 text-zinc-500">Killed by — {c.causeOfDeath}</p>
                     )}
+
+                    {/* Hand the spec to the Adversary workbench, where the same
+                        eight attacks can be re-run one at a time with the
+                        parameters exposed. The spec rides in the permalink, so
+                        no state is shared between the two pages. */}
+                    <a
+                      href={buildPermalink({ spec: c.spec })}
+                      className="mt-3 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-signal-soft"
+                    >
+                      Open in the Adversary
+                      <ArrowUpRight size={13} />
+                    </a>
                   </div>
                 );
               })}
