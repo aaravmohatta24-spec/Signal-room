@@ -24,7 +24,7 @@ export default function NoiseLabPage() {
   const workerRef = useRef<Worker | null>(null);
   const [, store] = useSession();
 
-  const [ticker, setTicker] = useState("^GSPC");
+  const [ticker, setTicker] = useState("SPY");
   const [running, setRunning] = useState(false);
   const [progress, setProgress] = useState({ done: 0, total: SWEEP_SIZE, arm: "real" as "real" | "noise" });
   const [arms, setArms] = useState<SweepArmResult[] | null>(null);

@@ -47,7 +47,7 @@ export default function ScreenerPage() {
   const navigate = useNavigate();
   const [session, store] = useSession();
 
-  const [tickers, setTickers] = useState<string[]>(["^GSPC"]);
+  const [tickers, setTickers] = useState<string[]>(["SPY"]);
   const [running, setRunning] = useState(false);
   const [progress, setProgress] = useState({ done: 0, total: 1, label: "" });
   const [candidates, setCandidates] = useState<ScreenCandidate[] | null>(null);

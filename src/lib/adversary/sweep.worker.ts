@@ -97,12 +97,12 @@ function sweepArm(
   };
 }
 
-self.onmessage = (event: MessageEvent<SweepRequest>) => {
+self.onmessage = async (event: MessageEvent<SweepRequest>) => {
   const post = (message: SweepMessage) => self.postMessage(message);
 
   try {
     const { ticker, count, seed, includeNoiseControl } = event.data;
-    const real = loadInstrument(ticker);
+    const real = await loadInstrument(ticker);
 
     const arms: SweepArmResult[] = [sweepArm(real, "real", count, seed, post)];
 

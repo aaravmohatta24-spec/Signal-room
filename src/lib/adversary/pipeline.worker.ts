@@ -243,12 +243,12 @@ function redTeam(
   return { ordeals, metrics: m, equity: thin(result.equity) };
 }
 
-self.onmessage = (event: MessageEvent<PipelineRequest>) => {
+self.onmessage = async (event: MessageEvent<PipelineRequest>) => {
   const post = (message: PipelineMessage) => self.postMessage(message);
 
   try {
     const { ticker, assetClass, poolSize, seed } = event.data;
-    const bars = loadInstrument(ticker);
+    const bars = await loadInstrument(ticker);
     const cache = new SignalCache(bars);
 
     // Stage 1 — build the pool.

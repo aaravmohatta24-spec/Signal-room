@@ -1,4 +1,4 @@
-import { ChartNoAxesCombined, Crosshair, Radar, Swords, type LucideIcon } from "lucide-react";
+import { ChartNoAxesCombined, Crosshair, Swords, type LucideIcon } from "lucide-react";
 
 export type Offering = {
   /** Route this offering lives at. */
@@ -24,12 +24,12 @@ export const OFFERINGS: Offering[] = [
     name: "Strategy Maker",
     tagline: "Generate the pool",
     summary:
-      "Generates 14 distinct strategies tailored to the instrument you choose — a stock, an index, a forex pair or a commodity.",
+      "Generates a pool of candidate rules for the instrument you choose. It stops there — nothing is tested, ranked or endorsed until you send it onward.",
     capabilities: [
-      "14 distinct strategies tailored to your stock, index, forex pair or commodity",
-      "Index, stock, forex and commodity instruments to pick from",
-      "Every condition, sizing rule and fee stated up front",
-      "Runs in a Web Worker, streamed live with per-stage progress"
+      "5, 10, 14 or 20 strategies tailored to your stock, index, forex pair or commodity",
+      "Every entry, exit and sizing rule written out in plain English",
+      "Lookbacks capped against the instrument's actual history",
+      "Send any candidate straight to the Adversary"
     ],
     icon: Swords
   },
@@ -48,31 +48,17 @@ export const OFFERINGS: Offering[] = [
     icon: Crosshair
   },
   {
-    path: "/signal-room",
+    path: "/back-tester",
     name: "Back Tester",
-    tagline: "Deep validation of the survivor",
+    tagline: "Set your terms, read the result",
     summary:
-      "Ten-year validation of the survivor, with entry, exit and sizing rules, plus the metrics and equity curve that produced them.",
+      "Takes a strategy from the Adversary and tests it on your terms — your instrument, window, capital, sizing, stops and costs — then reports what it did trade by trade.",
     capabilities: [
-      "Ten-year validation of the survivor, with entry, exit and sizing rules",
-      "Total return, CAGR, Sharpe and max drawdown",
-      "Equity curve rendered from every bar in the test",
-      "Expected trade count, win rate and drawdown to prepare for"
+      "Instrument, test window, starting capital and position size you set yourself",
+      "Stop loss, target, trailing stop and maximum holding period as toggles",
+      "Brokerage and slippage in basis points, charged per side",
+      "Equity curve, year-by-year table, full trade log, and the rule's stance at the last close"
     ],
     icon: ChartNoAxesCombined
-  },
-  {
-    path: "/signal-room",
-    name: "Current signal",
-    tagline: "As of the latest close",
-    summary:
-      "Current signal, entry price, stop and target as of the latest close — read on the close, filled at the next day's open.",
-    capabilities: [
-      "Current signal, entry price, stop and target as of the latest close",
-      "Signals read on the close; orders fill at the next day's open",
-      "15bps round-trip assumed in costs",
-      "Paper-trade it forward before committing capital"
-    ],
-    icon: Radar
   }
 ];

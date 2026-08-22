@@ -140,7 +140,7 @@ function verdictOf(c: Omit<ScreenCandidate, "survivalScore" | "verdict">): Scree
   return "SURVIVED";
 }
 
-self.onmessage = (event: MessageEvent<ScreenRequest>) => {
+self.onmessage = async (event: MessageEvent<ScreenRequest>) => {
   const post = (message: ScreenMessage) => self.postMessage(message);
 
   try {
@@ -153,7 +153,7 @@ self.onmessage = (event: MessageEvent<ScreenRequest>) => {
     // instrument's length so nothing is generated that the data cannot judge.
     const jobs: { spec: StrategySpec; id: string; family: string; ticker: string }[] = [];
     for (const [t, ticker] of tickers.entries()) {
-      const bars = loadInstrument(ticker);
+      const bars = await loadInstrument(ticker);
       const cap = maxLookbackFor(bars.close.length);
       const specs = sampleStrategies(strategiesPerInstrument, ticker, seed + t * 7907, cap);
       for (const [i, spec] of specs.entries()) {
@@ -174,7 +174,7 @@ self.onmessage = (event: MessageEvent<ScreenRequest>) => {
 
     for (const [i, ticker] of tickers.entries()) {
       post({ type: "progress", done: 0, total, label: `Building the null distribution for ${ticker}…` });
-      const bars = loadInstrument(ticker);
+      const bars = await loadInstrument(ticker);
       const cache = new SignalCache(bars);
       barsFor.set(ticker, bars);
       caches.set(ticker, cache);

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Check, CircleAlert, Crosshair, Link2, Skull, Upload, X } from "lucide-react";
+import { Check, CircleAlert, Crosshair, Gauge, Link2, Skull, Upload, X } from "lucide-react";
 
 import Layout from "@/components/Layout";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
@@ -36,7 +36,7 @@ const ATTACK_COUNT = 8;
 
 const DEFAULT_SPEC: StrategySpec = {
   name: "Golden cross",
-  universe: "^GSPC",
+  universe: "SPY",
   entry: {
     left: { kind: "sma", period: 50 },
     comparator: "crosses_above",
@@ -66,7 +66,7 @@ export default function AdversaryPage() {
   const [session, store] = useSession();
 
   const [spec, setSpec] = useState<StrategySpec>(DEFAULT_SPEC);
-  const [ticker, setTicker] = useState("^GSPC");
+  const [ticker, setTicker] = useState("SPY");
   const [uploaded, setUploaded] = useState<Bars | null>(null);
   const [note, setNote] = useState<string | null>(null);
 
@@ -90,13 +90,37 @@ export default function AdversaryPage() {
     );
   }, []);
 
-  const bars = useMemo(() => uploaded ?? loadInstrument(ticker), [uploaded, ticker]);
+  // The series is fetched rather than bundled, so it arrives asynchronously.
+  // Until it does there are no bars to test against, and every derived value
+  // below has to tolerate that gap.
+  const [fetched, setFetched] = useState<Bars | null>(null);
+  const [loadError, setLoadError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (uploaded) return;
+    let cancelled = false;
+    setLoadError(null);
+    loadInstrument(ticker)
+      .then((next) => {
+        // A slow response for a ticker the user has since moved off must not
+        // overwrite the one they are actually looking at.
+        if (!cancelled) setFetched(next);
+      })
+      .catch(() => {
+        if (!cancelled) setLoadError(`Could not load price data for ${ticker}.`);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [ticker, uploaded]);
+
+  const bars = uploaded ?? fetched;
   const issues = useMemo(() => validateSpec(spec), [spec]);
 
   // The backtest is cheap, so it re-runs live as the builder changes. Its
   // numbers stay provisional until the attacks have been run.
   const backtest = useMemo(() => {
-    if (issues.length) return null;
+    if (issues.length || !bars) return null;
     try {
       return runBacktest(spec, bars, DEFAULT_COSTS, new SignalCache(bars));
     } catch {
@@ -125,7 +149,7 @@ export default function AdversaryPage() {
    * that appears instantly reads as a lookup, not an investigation.
    */
   const attack = async () => {
-    if (!backtest) return;
+    if (!backtest || !bars) return;
     setRunning(true);
     setAttacks([]);
     setVerdict(null);
@@ -341,10 +365,10 @@ export default function AdversaryPage() {
                     <CircleAlert size={13} className="mt-0.5 shrink-0" />
                     {instrumentByTicker(ticker)?.source ?? "Unknown source"}.
                   </p>
-                  {depthWarning(bars.close.length) && (
+                  {bars && depthWarning(bars.close.length) && (
                     <p className="flex gap-2 rounded-lg border border-amber-500/30 bg-amber-950/20 p-2.5 text-[11px] leading-5 text-amber-200/90">
                       <CircleAlert size={13} className="mt-0.5 shrink-0" />
-                      {depthWarning(bars.close.length)}
+                      {depthWarning(bars!.close.length)}
                     </p>
                   )}
                 </div>
@@ -360,7 +384,7 @@ export default function AdversaryPage() {
               }}
             />
 
-            <StrategyBuilder spec={spec} onChange={setSpec} issues={issues} ticker={uploaded ? uploaded.ticker : ticker} barCount={bars.close.length} />
+            <StrategyBuilder spec={spec} onChange={setSpec} issues={issues} ticker={uploaded ? uploaded.ticker : ticker} barCount={bars?.close.length ?? 0} />
           </ScrollReveal>
 
           {/* Right: result + attacks */}
@@ -398,7 +422,7 @@ export default function AdversaryPage() {
                     <SignalCard
                       result={backtest}
                       spec={spec}
-                      bars={bars}
+                      bars={bars!}
                       verdict={challenged ? verdict : null}
                       instrumentLabel={uploaded ? uploaded.ticker : instrumentByTicker(ticker)?.label ?? ticker}
                     />
@@ -509,13 +533,25 @@ export default function AdversaryPage() {
                   <p className="mt-2 text-sm leading-6 text-zinc-300">{verdict.remedy}</p>
                 </div>
 
-                <button
-                  onClick={share}
-                  className="mt-4 flex items-center gap-2 rounded-xl border border-border px-4 py-2 text-xs text-muted-foreground transition-colors hover:border-signal/50 hover:text-foreground"
-                >
-                  {copied ? <Check size={13} /> : <Link2 size={13} />}
-                  {copied ? "Link copied" : "Copy a link to this verdict"}
-                </button>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  <button
+                    onClick={share}
+                    className="flex items-center gap-2 rounded-xl border border-border px-4 py-2 text-xs text-muted-foreground transition-colors hover:border-signal/50 hover:text-foreground"
+                  >
+                    {copied ? <Check size={13} /> : <Link2 size={13} />}
+                    {copied ? "Link copied" : "Copy a link to this verdict"}
+                  </button>
+
+                  {/* The spec travels in the hash, so the Back Tester starts
+                      from exactly what was attacked here. */}
+                  <a
+                    href={buildPermalink({ spec }).replace("#/adversary?", "#/back-tester?")}
+                    className="flex items-center gap-2 rounded-xl border border-border px-4 py-2 text-xs text-muted-foreground transition-colors hover:border-signal/50 hover:text-foreground"
+                  >
+                    <Gauge size={13} />
+                    Send to the Back Tester
+                  </a>
+                </div>
               </div>
             )}
           </ScrollReveal>

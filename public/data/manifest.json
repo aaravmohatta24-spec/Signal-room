@@ -1,0 +1,1165 @@
+{
+ "builtAt": "2026-08-22T18:46:12.282Z",
+ "instruments": [
+  {
+   "ticker": "DBC",
+   "label": "Commodity Index",
+   "assetClass": "commodity",
+   "source": "US ETF archive",
+   "bars": 3563,
+   "from": "2006-02-06",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "GLD",
+   "label": "Gold Trust",
+   "assetClass": "commodity",
+   "source": "US ETF archive",
+   "bars": 3868,
+   "from": "2004-11-18",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "SLV",
+   "label": "Silver Trust",
+   "assetClass": "commodity",
+   "source": "US ETF archive",
+   "bars": 3506,
+   "from": "2006-04-28",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "USO",
+   "label": "US Oil Fund",
+   "assetClass": "commodity",
+   "source": "US ETF archive",
+   "bars": 3519,
+   "from": "2006-04-10",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "AUDUSD",
+   "label": "Australian Dollar / US Dollar",
+   "assetClass": "forex",
+   "source": "Daily currency fixings 1995-2018",
+   "bars": 5040,
+   "from": "1997-09-17",
+   "to": "2018-05-01",
+   "note": "Daily fixing: close-only, no intraday range."
+  },
+  {
+   "ticker": "EURUSD",
+   "label": "Euro / US Dollar",
+   "assetClass": "forex",
+   "source": "Daily currency fixings 1995-2018",
+   "bars": 4908,
+   "from": "1998-10-30",
+   "to": "2018-05-02",
+   "note": "Daily fixing: close-only, no intraday range."
+  },
+  {
+   "ticker": "GBPUSD",
+   "label": "Pound Sterling / US Dollar",
+   "assetClass": "forex",
+   "source": "Daily currency fixings 1995-2018",
+   "bars": 5040,
+   "from": "1998-03-26",
+   "to": "2018-05-02",
+   "note": "Daily fixing: close-only, no intraday range."
+  },
+  {
+   "ticker": "USDBRL",
+   "label": "US Dollar / Brazilian Real",
+   "assetClass": "forex",
+   "source": "Daily currency fixings 1995-2018",
+   "bars": 5040,
+   "from": "1996-08-15",
+   "to": "2018-04-30",
+   "note": "Daily fixing: close-only, no intraday range."
+  },
+  {
+   "ticker": "USDCAD",
+   "label": "US Dollar / Canadian Dollar",
+   "assetClass": "forex",
+   "source": "Daily currency fixings 1995-2018",
+   "bars": 5040,
+   "from": "1997-04-28",
+   "to": "2018-04-30",
+   "note": "Daily fixing: close-only, no intraday range."
+  },
+  {
+   "ticker": "USDCHF",
+   "label": "US Dollar / Swiss Franc",
+   "assetClass": "forex",
+   "source": "Daily currency fixings 1995-2018",
+   "bars": 5040,
+   "from": "1997-10-13",
+   "to": "2018-04-30",
+   "note": "Daily fixing: close-only, no intraday range."
+  },
+  {
+   "ticker": "USDCNY",
+   "label": "US Dollar / Chinese Yuan",
+   "assetClass": "forex",
+   "source": "Daily currency fixings 1995-2018",
+   "bars": 4662,
+   "from": "1995-01-31",
+   "to": "2018-05-02",
+   "note": "Daily fixing: close-only, no intraday range."
+  },
+  {
+   "ticker": "USDINR",
+   "label": "US Dollar / Indian Rupee",
+   "assetClass": "forex",
+   "source": "Daily currency fixings 1995-2018",
+   "bars": 5040,
+   "from": "1997-01-22",
+   "to": "2018-04-30",
+   "note": "Daily fixing: close-only, no intraday range."
+  },
+  {
+   "ticker": "USDJPY",
+   "label": "US Dollar / Japanese Yen",
+   "assetClass": "forex",
+   "source": "Daily currency fixings 1995-2018",
+   "bars": 5040,
+   "from": "1997-07-09",
+   "to": "2018-05-02",
+   "note": "Daily fixing: close-only, no intraday range."
+  },
+  {
+   "ticker": "USDKRW",
+   "label": "US Dollar / Korean Won",
+   "assetClass": "forex",
+   "source": "Daily currency fixings 1995-2018",
+   "bars": 5040,
+   "from": "1996-05-20",
+   "to": "2018-04-30",
+   "note": "Daily fixing: close-only, no intraday range."
+  },
+  {
+   "ticker": "USDMXN",
+   "label": "US Dollar / Mexican Peso",
+   "assetClass": "forex",
+   "source": "Daily currency fixings 1995-2018",
+   "bars": 3712,
+   "from": "1995-01-31",
+   "to": "2018-04-30",
+   "note": "Daily fixing: close-only, no intraday range."
+  },
+  {
+   "ticker": "USDSGD",
+   "label": "US Dollar / Singapore Dollar",
+   "assetClass": "forex",
+   "source": "Daily currency fixings 1995-2018",
+   "bars": 5040,
+   "from": "1997-09-23",
+   "to": "2018-04-30",
+   "note": "Daily fixing: close-only, no intraday range."
+  },
+  {
+   "ticker": "DIA",
+   "label": "Dow 30 ETF",
+   "assetClass": "index",
+   "source": "US ETF archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "EEM",
+   "label": "MSCI Emerging Markets ETF",
+   "assetClass": "index",
+   "source": "US ETF archive",
+   "bars": 4272,
+   "from": "2003-04-14",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "EFA",
+   "label": "MSCI EAFE ETF",
+   "assetClass": "index",
+   "source": "US ETF archive",
+   "bars": 4678,
+   "from": "2001-08-27",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "EWA",
+   "label": "MSCI Australia",
+   "assetClass": "index",
+   "source": "US ETF archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "EWC",
+   "label": "MSCI Canada",
+   "assetClass": "index",
+   "source": "US ETF archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "EWG",
+   "label": "MSCI Germany",
+   "assetClass": "index",
+   "source": "US ETF archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "EWH",
+   "label": "MSCI Hong Kong",
+   "assetClass": "index",
+   "source": "US ETF archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "EWJ",
+   "label": "MSCI Japan",
+   "assetClass": "index",
+   "source": "US ETF archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "EWS",
+   "label": "MSCI Singapore",
+   "assetClass": "index",
+   "source": "US ETF archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "EWU",
+   "label": "MSCI United Kingdom",
+   "assetClass": "index",
+   "source": "US ETF archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "EWW",
+   "label": "MSCI Mexico",
+   "assetClass": "index",
+   "source": "US ETF archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "HYG",
+   "label": "High Yield Corporate",
+   "assetClass": "index",
+   "source": "US ETF archive",
+   "bars": 3268,
+   "from": "2007-04-11",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "IEF",
+   "label": "7-10 Year Treasury",
+   "assetClass": "index",
+   "source": "US ETF archive",
+   "bars": 4450,
+   "from": "2002-07-30",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "IWM",
+   "label": "Russell 2000 ETF",
+   "assetClass": "index",
+   "source": "US ETF archive",
+   "bars": 4993,
+   "from": "2000-05-26",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "IXIC",
+   "label": "Nasdaq Composite",
+   "assetClass": "index",
+   "source": "Index archive",
+   "bars": 3914,
+   "from": "2010-01-04",
+   "to": "2024-10-25",
+   "note": ""
+  },
+  {
+   "ticker": "LQD",
+   "label": "Investment Grade Corporate",
+   "assetClass": "index",
+   "source": "US ETF archive",
+   "bars": 4450,
+   "from": "2002-07-30",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "MDY",
+   "label": "S&P MidCap 400 ETF",
+   "assetClass": "index",
+   "source": "US ETF archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "QQQ",
+   "label": "Nasdaq 100 ETF",
+   "assetClass": "index",
+   "source": "US ETF archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "SPY",
+   "label": "S&P 500 ETF",
+   "assetClass": "index",
+   "source": "US ETF archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "TLT",
+   "label": "20+ Year Treasury",
+   "assetClass": "index",
+   "source": "US ETF archive",
+   "bars": 4450,
+   "from": "2002-07-30",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "VTI",
+   "label": "Total US Market ETF",
+   "assetClass": "index",
+   "source": "US ETF archive",
+   "bars": 4728,
+   "from": "2001-06-15",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "AA",
+   "label": "Alcoa",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "AAL",
+   "label": "American Airlines",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 3653,
+   "from": "2005-09-27",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "AAPL",
+   "label": "Apple",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "ABT",
+   "label": "Abbott",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "ADBE",
+   "label": "Adobe",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "AMD",
+   "label": "AMD",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "AMZN",
+   "label": "Amazon",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "AXP",
+   "label": "American Express",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "BA",
+   "label": "Boeing",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "BAC",
+   "label": "Bank of America",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "BK",
+   "label": "Bank of New York Mellon",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "BMY",
+   "label": "Bristol-Myers Squibb",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "C",
+   "label": "Citigroup",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "CAT",
+   "label": "Caterpillar",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "CNP",
+   "label": "CenterPoint Energy",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "COST",
+   "label": "Costco",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "CRM",
+   "label": "Salesforce",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 3972,
+   "from": "2004-06-23",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "CSCO",
+   "label": "Cisco",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "CVX",
+   "label": "Chevron",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "DAL",
+   "label": "Delta Air Lines",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 3252,
+   "from": "2007-05-03",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "DD",
+   "label": "DuPont",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "DE",
+   "label": "Deere",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "DIS",
+   "label": "Disney",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "ETN",
+   "label": "Eaton",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "F",
+   "label": "Ford",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "FB",
+   "label": "Meta Platforms (FB)",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 1980,
+   "from": "2012-05-18",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "GE",
+   "label": "General Electric",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "GM",
+   "label": "General Motors",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 2357,
+   "from": "2010-11-18",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "GOOGL",
+   "label": "Alphabet",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 3932,
+   "from": "2004-08-19",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "GS",
+   "label": "Goldman Sachs",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "HAL",
+   "label": "Halliburton",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "HD",
+   "label": "Home Depot",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "HON",
+   "label": "Honeywell",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "HPQ",
+   "label": "HP",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "IBM",
+   "label": "IBM",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "INTC",
+   "label": "Intel",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "IP",
+   "label": "International Paper",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "JNJ",
+   "label": "Johnson and Johnson",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "JPM",
+   "label": "JPMorgan Chase",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "KO",
+   "label": "Coca-Cola",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "LMT",
+   "label": "Lockheed Martin",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "LOW",
+   "label": "Lowes",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "MA",
+   "label": "Mastercard",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 3487,
+   "from": "2006-05-25",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "MCD",
+   "label": "McDonalds",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "MMM",
+   "label": "3M",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "MO",
+   "label": "Altria",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "MRK",
+   "label": "Merck",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "MRO",
+   "label": "Marathon Oil",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "MS",
+   "label": "Morgan Stanley",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "MSFT",
+   "label": "Microsoft",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "NFLX",
+   "label": "Netflix",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 4496,
+   "from": "2002-05-23",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "NI",
+   "label": "NiSource",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "NKE",
+   "label": "Nike",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "NVDA",
+   "label": "NVIDIA",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "ORCL",
+   "label": "Oracle",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "PEP",
+   "label": "PepsiCo",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "PFE",
+   "label": "Pfizer",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "PG",
+   "label": "Procter and Gamble",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "QCOM",
+   "label": "Qualcomm",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "SBUX",
+   "label": "Starbucks",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "T",
+   "label": "AT and T",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "TGT",
+   "label": "Target",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "TSLA",
+   "label": "Tesla",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 2457,
+   "from": "2010-06-29",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "TXN",
+   "label": "Texas Instruments",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "UNH",
+   "label": "UnitedHealth",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "UPS",
+   "label": "UPS",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "V",
+   "label": "Visa",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 3031,
+   "from": "2008-03-19",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "VZ",
+   "label": "Verizon",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "WFC",
+   "label": "Wells Fargo",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "WMT",
+   "label": "Walmart",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "XLE",
+   "label": "Energy Sector",
+   "assetClass": "stock",
+   "source": "US ETF archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "XLF",
+   "label": "Financials Sector",
+   "assetClass": "stock",
+   "source": "US ETF archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "XLI",
+   "label": "Industrials Sector",
+   "assetClass": "stock",
+   "source": "US ETF archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "XLK",
+   "label": "Technology Sector",
+   "assetClass": "stock",
+   "source": "US ETF archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "XLP",
+   "label": "Consumer Staples Sector",
+   "assetClass": "stock",
+   "source": "US ETF archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "XLU",
+   "label": "Utilities Sector",
+   "assetClass": "stock",
+   "source": "US ETF archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "XLV",
+   "label": "Health Care Sector",
+   "assetClass": "stock",
+   "source": "US ETF archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "XLY",
+   "label": "Consumer Discretionary Sector",
+   "assetClass": "stock",
+   "source": "US ETF archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  },
+  {
+   "ticker": "XOM",
+   "label": "Exxon Mobil",
+   "assetClass": "stock",
+   "source": "US equities archive",
+   "bars": 5040,
+   "from": "2000-03-21",
+   "to": "2020-04-01",
+   "note": ""
+  }
+ ]
+}

@@ -24,15 +24,7 @@ export default function StrategyLabPage() {
   const [progress, setProgress] = useState("");
   const [results, setResults] = useState<{ spec: StrategySpec; result: BacktestResult }[]>([]);
 
-  useEffect(() => {
-    // Dynamically import market data to avoid blocking main thread at boot
-    import("@/data/market-data.json").then((module) => {
-      setMarketData(module.default as FetchedSeries[]);
-    });
-  }, []);
-
   const runRace = async () => {
-    if (!marketData.length) return;
     setIsRacing(true);
     setResults([]);
     
