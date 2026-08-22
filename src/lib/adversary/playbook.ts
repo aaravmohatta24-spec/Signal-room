@@ -168,6 +168,53 @@ export const PLAYBOOK: PlaybookEntry[] = [
       )
   },
   {
+    id: "supertrend",
+    name: "Supertrend follower",
+    family: "trend",
+    premise:
+      "Hold the position while ATR bands say the trend is intact, and flip only when price closes through the " +
+      "band. Sizing the stop by volatility keeps the exit the same distance away in risk terms whether the " +
+      "market is calm or violent.",
+    caveat:
+      "One of the most heavily optimised indicators in retail trading, which is exactly why its backtests " +
+      "flatter it. The period and multiplier are almost always fitted to the chart being shown, and it still " +
+      "whipsaws in a range like every other trend follower.",
+    suits: ["index", "stock", "commodity", "forex"],
+    build: (t, a) => {
+      const p = speedFor(a);
+      return make(
+        t,
+        "Supertrend follower",
+        // Direction is +1 or -1, so "above 0" is the whole uptrend condition.
+        { left: { kind: "supertrend", period: 10 }, comparator: "greater_than", right: { constant: 0 }, direction: "long" },
+        [{ kind: "opposite_signal" }, { kind: "stop_loss", pct: p.stop * 2 }]
+      );
+    }
+  },
+  {
+    id: "donchian",
+    name: "Donchian breakout",
+    family: "breakout",
+    premise:
+      "The original turtle rule: buy when the close finishes at the top of its own prior N-day range, and let " +
+      "a trailing stop decide when the move is over.",
+    caveat:
+      "The published edge dates from the 1980s and has been arbitraged hard since. Expect a low win rate and " +
+      "long stretches underwater between the few breakouts that run.",
+    suits: ["index", "stock", "commodity", "forex"],
+    build: (t, a) => {
+      const p = speedFor(a);
+      return make(
+        t,
+        "Donchian breakout",
+        // The window excludes the current bar, so 98 means the close cleared
+        // nearly the whole range that existed before it.
+        { left: { kind: "donchian", period: 20 }, comparator: "crosses_above", right: { constant: 98 }, direction: "long" },
+        [{ kind: "trailing_stop", pct: p.stop * 2.5 }, { kind: "time_stop", days: 120 }]
+      );
+    }
+  },
+  {
     id: "breakout",
     name: "Range breakout",
     family: "breakout",

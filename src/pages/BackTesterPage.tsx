@@ -493,11 +493,6 @@ export default function BackTesterPage() {
                     </div>
                   )}
                 </div>
-                <p className="mt-4 flex gap-2 rounded-xl border border-amber-500/30 bg-amber-950/20 p-3 text-xs leading-5 text-amber-200/90">
-                  <CircleAlert size={14} className="mt-0.5 shrink-0" />
-                  This is the rule's stance on historical data ending at the last available bar. It is a readout of what
-                  the rule says, not a forecast of what the market will do.
-                </p>
               </div>
             )}
 

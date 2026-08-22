@@ -277,11 +277,6 @@ export default function PipelinePage() {
               ))}
             </div>
 
-            <p className="mt-6 flex gap-2 text-xs leading-5 text-muted-foreground">
-              <ChevronRight size={14} className="mt-0.5 shrink-0 text-signal-soft" />
-              Trade counts above come from one pass over the full history and are there only to show the rule fires.
-              They are not a result — no cost sensitivity, no regime split, no correction for the search.
-            </p>
           </ScrollReveal>
         )}
 

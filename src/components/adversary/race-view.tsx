@@ -4,7 +4,7 @@ import { Check, ChevronRight, CircleAlert, Gauge, Medal, Skull, Swords, X } from
 
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { ActionButton } from "@/components/ui/action-button";
-import { EquityCurve } from "@/components/adversary/charts";
+import { RaceChart } from "@/components/adversary/race-chart";
 import { clearPool, readPool, saveWinner, type RacePool } from "@/lib/adversary/handoff";
 import type { Candidate, PipelineMessage } from "@/lib/adversary/pipeline.worker";
 import { cn } from "@/lib/utils";
@@ -245,17 +245,8 @@ export function RaceView() {
               ))}
             </div>
 
-            {winner.equity.length > 1 && (
-              <div className="mt-4">
-                <EquityCurve series={winner.equity} stroke="rgb(52 211 153)" />
-              </div>
-            )}
 
-            <p className="mt-4 flex gap-2 rounded-xl border border-amber-500/30 bg-amber-950/20 p-3 text-xs leading-5 text-amber-200/90">
-              <CircleAlert size={14} className="mt-0.5 shrink-0" />
-              Winning a field of {standings.length} is itself a search. The more candidates raced, the more likely the
-              best of them looks good by chance — this is the least-refuted rule of the field, not a proven one.
-            </p>
+
           </div>
         </ScrollReveal>
       )}
@@ -273,7 +264,31 @@ export function RaceView() {
       {/* ── Standings ──────────────────────────────────────────── */}
       {candidates && (
         <ScrollReveal variant="drift" className="mt-8">
-          <h2 className="font-display text-2xl font-semibold tracking-[-.018em] text-foreground">Final standings</h2>
+          <div className="rounded-[20px] border border-border bg-card p-5">
+            <div className="flex items-baseline justify-between gap-4">
+              <h2 className="font-display text-2xl font-semibold tracking-[-.018em] text-foreground">
+                The field
+              </h2>
+              <span className="font-mono text-[10px] uppercase tracking-[.14em] text-muted-foreground">
+                {standings.length} curves · one axis
+              </span>
+            </div>
+            <div className="mt-4">
+              <RaceChart
+                runners={standings.map((c) => ({
+                  id: c.id,
+                  name: c.name,
+                  equity: c.equity,
+                  eliminated: c.eliminated,
+                  isWinner: c.id === winnerId
+                }))}
+              />
+            </div>
+          </div>
+
+          <h2 className="mt-8 font-display text-2xl font-semibold tracking-[-.018em] text-foreground">
+            Final standings
+          </h2>
 
           <div className="mt-4 space-y-2">
             {standings.map((c, place) => {

@@ -28,7 +28,9 @@ const SIGNAL_LABEL: Record<SignalKind, string> = {
   momentum: "Momentum",
   volatility: "Volatility",
   price: "Price",
-  volume_ratio: "Volume ratio"
+  volume_ratio: "Volume ratio",
+  supertrend: "Supertrend direction",
+  donchian: "Donchian range position"
 };
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {

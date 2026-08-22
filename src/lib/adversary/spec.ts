@@ -15,7 +15,9 @@ export const SIGNAL_KINDS = [
   "momentum",
   "volatility",
   "price",
-  "volume_ratio"
+  "volume_ratio",
+  "supertrend",
+  "donchian"
 ] as const;
 
 export type SignalKind = (typeof SIGNAL_KINDS)[number];
@@ -70,14 +72,23 @@ export const PERIOD_RANGE: Record<SignalKind, [number, number]> = {
   momentum: [5, 250],
   volatility: [10, 120],
   price: [1, 1],
-  volume_ratio: [5, 60]
+  volume_ratio: [5, 60],
+  // Supertrend's ATR lookback. 10 is conventional; below ~7 it flips on noise.
+  supertrend: [7, 30],
+  // Donchian breakout window. 20 and 55 are the classic turtle pair.
+  donchian: [10, 120]
 };
 
 export const PCT_RANGE: [number, number] = [0.5, 25];
 export const TIME_STOP_RANGE: [number, number] = [2, 120];
 
 /** Signals whose natural comparison is against a constant, not another series. */
-export const BOUNDED_SIGNALS: SignalKind[] = ["rsi", "zscore", "momentum", "volume_ratio"];
+export const BOUNDED_SIGNALS: SignalKind[] = [
+  "rsi", "zscore", "momentum", "volume_ratio",
+  // Both are compared against a level, never against another series: supertrend
+  // is a direction (+1/-1) and donchian is a 0-100 position in its own range.
+  "supertrend", "donchian"
+];
 
 export type ValidationIssue = { field: string; message: string };
 

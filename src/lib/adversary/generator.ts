@@ -48,6 +48,17 @@ function thresholdFor(rand: () => number, kind: SignalKind): number {
       return Number((-15 + rand() * 30).toFixed(1));
     case "volume_ratio":
       return Number((0.6 + rand() * 1.8).toFixed(2));
+    // Supertrend is +1 or -1, so the only threshold that separates the two
+    // states is zero. Any other value makes the condition always or never true.
+    case "supertrend":
+      return 0;
+    // Donchian is a 0-100 position in the prior range. Draws cluster at the
+    // extremes because that is where a breakout or a failure lives; the middle
+    // of the range is not a signal.
+    case "donchian":
+      return rand() < 0.5
+        ? Number((80 + rand() * 19).toFixed(1))
+        : Number((1 + rand() * 19).toFixed(1));
     default:
       return 0;
   }
