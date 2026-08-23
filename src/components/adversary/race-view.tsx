@@ -42,9 +42,25 @@ export function RaceView() {
     setProgress({ done: 0, total: pool.candidates.length, label: "Starting…" });
 
     workerRef.current?.terminate();
-    const worker = new Worker(new URL("../../lib/adversary/pipeline.worker.ts", import.meta.url), {
-      type: "module"
-    });
+
+    // The race runs in a module worker. Browsers that predate module worker
+    // support — Firefox before 114, Safari before 15 — throw from the
+    // constructor rather than firing onerror, so construction is guarded and
+    // reported separately from a fault inside the worker.
+    let worker: Worker;
+    try {
+      worker = new Worker(new URL("../../lib/adversary/pipeline.worker.ts", import.meta.url), {
+        type: "module"
+      });
+    } catch (cause) {
+      setError(
+        `This browser could not start the race worker${
+          cause instanceof Error ? `: ${cause.message}` : "."
+        } Module workers are required, which needs Firefox 114, Safari 15 or Chrome 80 and later.`
+      );
+      setRunning(false);
+      return;
+    }
     workerRef.current = worker;
 
     worker.onmessage = (event: MessageEvent<PipelineMessage>) => {
@@ -63,9 +79,24 @@ export function RaceView() {
         worker.terminate();
       }
     };
-    worker.onerror = () => {
-      setError("The race worker failed to start.");
+
+    // onerror covers both a worker that never loaded and one that threw while
+    // running. The previous handler reported every case as a failure to start,
+    // which sent anyone debugging it looking in the wrong place. The event
+    // carries the real message, file and line, so report those.
+    worker.onerror = (event: ErrorEvent) => {
+      const where = event.filename ? ` (${event.filename.split("/").pop()}:${event.lineno})` : "";
+      setError(event.message ? `Race worker error: ${event.message}${where}` : `The race worker failed to load${where}.`);
       setRunning(false);
+      worker.terminate();
+    };
+
+    // Fires when a message cannot be deserialised — a pool carrying something
+    // uncloneable would land here rather than as a silent hang.
+    worker.onmessageerror = () => {
+      setError("The race worker sent a message this browser could not read. Rebuild the field and try again.");
+      setRunning(false);
+      worker.terminate();
     };
 
     worker.postMessage({
