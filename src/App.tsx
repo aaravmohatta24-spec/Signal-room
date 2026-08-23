@@ -11,6 +11,7 @@ import JournalPage from "@/pages/JournalPage";
 import SignUp from "@/pages/SignUp";
 
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import { Analytics } from "@vercel/analytics/react";
 
 export default function App() {
   return (
@@ -29,6 +30,16 @@ export default function App() {
             <Route path="/signup" element={<SignUp />} />
           </Routes>
         </HashRouter>
+        {/*
+          Page-view counting only. It is mounted inside the router so hash route
+          changes register as separate views — without that every visit would
+          record as one hit on "/" no matter how far the user got.
+
+          Nothing identifying is collected, which matters here: the whole app
+          runs in the browser precisely so no market data or account detail
+          reaches a server, and analytics must not be the thing that breaks it.
+        */}
+        <Analytics />
       </AuthProvider>
     </GoogleOAuthProvider>
   );
