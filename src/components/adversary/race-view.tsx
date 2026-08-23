@@ -28,6 +28,7 @@ export function RaceView() {
   const [running, setRunning] = useState(false);
   const [candidates, setCandidates] = useState<Candidate[] | null>(null);
   const [winnerId, setWinnerId] = useState<string | null>(null);
+  const [dates, setDates] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => () => workerRef.current?.terminate(), []);
@@ -53,6 +54,7 @@ export function RaceView() {
       } else if (m.type === "complete") {
         setCandidates(m.candidates);
         setWinnerId(m.winnerId);
+        setDates(m.dates ?? []);
         setRunning(false);
         worker.terminate();
       } else {
@@ -275,6 +277,7 @@ export function RaceView() {
             </div>
             <div className="mt-4">
               <RaceChart
+                dates={dates}
                 runners={standings.map((c) => ({
                   id: c.id,
                   name: c.name,

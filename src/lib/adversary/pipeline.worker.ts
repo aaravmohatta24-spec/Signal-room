@@ -75,6 +75,11 @@ export type PipelineComplete = {
   candidates: Candidate[];
   winnerId: string | null;
   poolSize: number;
+  /**
+   * Dates matching the thinned equity arrays, index for index, so a chart can
+   * label its own x-axis without re-deriving the sampling the worker used.
+   */
+  dates: string[];
 };
 export type PipelineMessage = PipelineProgress | PipelineComplete | { type: "error"; message: string };
 
@@ -82,6 +87,14 @@ function thin(equity: Float64Array, points = 200): number[] {
   const step = Math.max(1, Math.floor(equity.length / points));
   const out: number[] = [];
   for (let i = 0; i < equity.length; i += step) out.push(equity[i]);
+  return out;
+}
+
+/** Same sampling as thin(), applied to the date labels. */
+function thinDates(dates: string[], length: number, points = 200): string[] {
+  const step = Math.max(1, Math.floor(length / points));
+  const out: string[] = [];
+  for (let i = 0; i < length; i += step) out.push(dates[i] ?? "");
   return out;
 }
 
@@ -317,7 +330,13 @@ self.onmessage = async (event: MessageEvent<PipelineRequest>) => {
     const top = candidates[0];
     const winnerId = top && !top.eliminated ? top.id : null;
 
-    post({ type: "complete", candidates, winnerId, poolSize: pool.length });
+    post({
+      type: "complete",
+      candidates,
+      winnerId,
+      poolSize: pool.length,
+      dates: thinDates(bars.dates, bars.close.length)
+    });
   } catch (error) {
     post({ type: "error", message: error instanceof Error ? error.message : "Pipeline failed." });
   }

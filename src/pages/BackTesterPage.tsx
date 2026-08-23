@@ -4,7 +4,7 @@ import { CircleAlert, Gauge, Medal, Play } from "lucide-react";
 import Layout from "@/components/Layout";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { ActionButton } from "@/components/ui/action-button";
-import { EquityCurve } from "@/components/adversary/charts";
+import { EquityPanel } from "@/components/adversary/equity-panel";
 import { runBacktest, type BacktestResult } from "@/lib/adversary/engine";
 import {
   ASSET_CLASS_LABEL,
@@ -444,7 +444,11 @@ export default function BackTesterPage() {
                 Equity curve · {years} years · {money(capital)} start
               </div>
               <div className="mt-3">
-                <EquityCurve series={Array.from(result.result.equity)} stroke="rgb(52 211 153)" />
+                <EquityPanel
+                  equity={Array.from(result.result.equity)}
+                  dates={result.bars.dates}
+                  capital={capital}
+                />
               </div>
             </div>
 
