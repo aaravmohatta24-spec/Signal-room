@@ -92,12 +92,35 @@ const cache = new Map<string, Bars>();
 const inflight = new Map<string, Promise<Bars>>();
 
 /**
- * Where the series files are served from. BASE_URL respects the configured
- * Vite base, so this keeps working if the app is ever hosted in a subdirectory.
- * Workers resolve it the same way, since they are bundled with the same env.
+ * Absolute URL of the directory the app is served from.
+ *
+ * This cannot be a relative path. import.meta.env.BASE_URL is "./" here, and a
+ * relative URL resolves against the *script* that requests it — fine on the
+ * main thread, where that is the document, but inside a Web Worker it resolves
+ * against the worker chunk in /assets/ and asks for /assets/data/SPY.json,
+ * which 404s. The Strategy Maker therefore loaded data while the race did not,
+ * and only in a production build: the dev server forces the base to "/", which
+ * is absolute and hides the whole problem.
+ *
+ * So each context is resolved against something it can actually trust — the
+ * document's base URI on the main thread, and the worker's own module URL in a
+ * worker, cut back to the app root. Both keep working under a non-root base.
  */
+function appRoot(): string {
+  if (typeof document !== "undefined") {
+    return new URL(import.meta.env.BASE_URL, document.baseURI).href;
+  }
+  const here = import.meta.url;
+  // A built chunk lives at <root>/assets/…; in dev it is served from <root>/src/….
+  for (const marker of ["/assets/", "/src/"]) {
+    const at = here.lastIndexOf(marker);
+    if (at >= 0) return here.slice(0, at + 1);
+  }
+  return new URL("./", here).href;
+}
+
 const dataUrl = (ticker: string) =>
-  `${import.meta.env.BASE_URL}data/${ticker.replace(/[^A-Za-z0-9_-]/g, "_")}.json`;
+  `${appRoot()}data/${ticker.replace(/[^A-Za-z0-9_-]/g, "_")}.json`;
 
 function toBars(series: SeriesPayload): Bars {
   return {
