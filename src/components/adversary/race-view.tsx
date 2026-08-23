@@ -350,21 +350,27 @@ export function RaceView() {
                     </div>
                   </div>
 
-                  <div className="mt-3 flex flex-wrap gap-1.5">
+                  {/* Ordeal results as a log readout rather than coloured
+                      pills. Status lives in a 2px rule down the left edge and
+                      in the glyph, never in colour alone. */}
+                  <div className="mt-3 grid gap-px overflow-hidden rounded-[3px] border border-border bg-border sm:grid-cols-2 lg:grid-cols-4">
                     {c.ordeals.map((o) => (
-                      <span
+                      <div
                         key={o.name}
                         title={`${o.name} — ${o.detail}`}
-                        className={cn(
-                          "inline-flex items-center gap-1 rounded-md border px-2 py-1 text-[10px]",
-                          o.passed
-                            ? "border-emerald-500/30 bg-emerald-950/20 text-emerald-300"
-                            : "border-red-500/30 bg-red-950/20 text-red-300"
-                        )}
+                        className="flex items-center gap-2 bg-card px-2.5 py-1.5"
                       >
-                        {o.passed ? <Check size={10} /> : <X size={10} />}
-                        {o.name}
-                      </span>
+                        <span
+                          aria-hidden
+                          className={cn("h-4 w-0.5 shrink-0", o.passed ? "bg-emerald-400" : "bg-red-400")}
+                        />
+                        <span className={cn("shrink-0", o.passed ? "text-emerald-400" : "text-red-400")}>
+                          {o.passed ? <Check size={11} strokeWidth={3} /> : <X size={11} strokeWidth={3} />}
+                        </span>
+                        <span className="truncate font-mono text-[10px] uppercase tracking-[.08em] text-muted-foreground">
+                          {o.name}
+                        </span>
+                      </div>
                     ))}
                   </div>
 

@@ -29,6 +29,33 @@ const FAMILY_LABEL: Record<string, string> = {
   generated: "Search draw"
 };
 
+/** One labelled line of the spec sheet. */
+function Row({
+  label,
+  children,
+  tone
+}: {
+  label: string;
+  children: React.ReactNode;
+  tone?: "warn";
+}) {
+  return (
+    <div className="grid gap-1 py-2.5 sm:grid-cols-[124px_1fr] sm:gap-4">
+      <dt
+        className={cn(
+          "font-mono text-[9px] uppercase leading-5 tracking-[.12em]",
+          tone === "warn" ? "text-amber-500/80" : "text-slate-500"
+        )}
+      >
+        {label}
+      </dt>
+      <dd className={cn("text-[13px] leading-6", tone === "warn" ? "text-amber-200/70" : "text-muted-foreground")}>
+        {children}
+      </dd>
+    </div>
+  );
+}
+
 const sizingText = (candidate: PoolCandidate) => {
   const s = candidate.spec.sizing;
   if (s.kind === "fixed_fraction") return `${s.pct}% of capital per position`;
@@ -52,6 +79,8 @@ export default function PipelinePage() {
   const [pool, setPool] = useState<PoolCandidate[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  /** Index of the card whose long-form method is expanded, if any. */
+  const [open, setOpen] = useState<number | null>(null);
 
   const instrument = instrumentByTicker(ticker);
 
@@ -253,26 +282,38 @@ export default function PipelinePage() {
                     </a>
                   </div>
 
-                  <dl className="mt-4 grid gap-x-8 gap-y-3 sm:grid-cols-2">
-                    <div className="sm:col-span-2">
-                      <dt className="font-mono text-[9px] uppercase tracking-[.12em] text-slate-600">Rules</dt>
-                      <dd className="mt-1 text-sm leading-6 text-foreground/90">{candidate.description}</dd>
-                    </div>
-                    <div>
-                      <dt className="font-mono text-[9px] uppercase tracking-[.12em] text-slate-600">Sizing</dt>
-                      <dd className="mt-1 text-sm leading-6 text-muted-foreground">{sizingText(candidate)}</dd>
-                    </div>
-                    <div>
-                      <dt className="font-mono text-[9px] uppercase tracking-[.12em] text-slate-600">Premise</dt>
-                      <dd className="mt-1 text-sm leading-6 text-muted-foreground">{candidate.premise}</dd>
-                    </div>
-                    <div className="sm:col-span-2">
-                      <dt className="font-mono text-[9px] uppercase tracking-[.12em] text-amber-500/70">
-                        The objection
-                      </dt>
-                      <dd className="mt-1 text-sm leading-6 text-amber-200/70">{candidate.caveat}</dd>
-                    </div>
+                  {/* Spec sheet. Labels sit in a fixed left column so the
+                      eye can run down them, which is how a datasheet is read. */}
+                  <dl className="mt-4 divide-y divide-border/70 border-y border-border/70">
+                    <Row label="Entry / exit">
+                      <span className="text-foreground/90">{candidate.description}</span>
+                    </Row>
+                    <Row label="Sizing">{sizingText(candidate)}</Row>
+                    <Row label="Premise">{candidate.premise}</Row>
+                    <Row label="Objection" tone="warn">
+                      {candidate.caveat}
+                    </Row>
                   </dl>
+
+                  <button
+                    onClick={() => setOpen(open === index ? null : index)}
+                    aria-expanded={open === index}
+                    className="mt-3 inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[.12em] text-slate-500 transition-colors hover:text-signal-soft"
+                  >
+                    <ChevronRight
+                      size={12}
+                      className={cn("transition-transform duration-200", open === index && "rotate-90")}
+                    />
+                    {open === index ? "Hide the method" : "Read the method"}
+                  </button>
+
+                  {open === index && (
+                    <dl className="mt-3 divide-y divide-border/70 border-y border-border/70">
+                      <Row label="Indicator">{candidate.indicator}</Row>
+                      <Row label="Timeframe">{candidate.timeframe}</Row>
+                      <Row label="How it trades">{candidate.mechanics}</Row>
+                    </dl>
+                  )}
                 </div>
               ))}
             </div>

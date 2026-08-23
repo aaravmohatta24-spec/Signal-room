@@ -26,6 +26,10 @@ export type PoolCandidate = {
   family: PlaybookEntry["family"] | "generated";
   premise: string;
   caveat: string;
+  /** Long-form documentation, present for playbook entries. */
+  indicator: string;
+  timeframe: string;
+  mechanics: string;
   tradeCount: number;
 };
 
@@ -56,6 +60,19 @@ const GENERATED_CAVEAT =
 const GENERATED_PREMISE =
   "No prior claim — this is a candidate the search produced, included so the pool is not limited to " +
   "strategies that were already popular.";
+
+const GENERATED_INDICATOR =
+  "Assembled from the rule grammar rather than taken from a named setup, so the indicator, its lookback " +
+  "and its threshold were all chosen by the sampler. Read the entry condition above for exactly what it " +
+  "measures; there is no established interpretation of this particular combination.";
+
+const GENERATED_TIMEFRAME =
+  "Daily bars, read on the close, with orders assumed to fill at the next open. Holding period is set by " +
+  "whichever exit fires first rather than by any intended horizon.";
+
+const GENERATED_MECHANICS =
+  "Enter when the condition above is true, exit on the first exit rule that triggers. Lookbacks are capped " +
+  "against the length of the series so the rule cannot ask for more history than the instrument has.";
 
 /**
  * Build a pool for an instrument: the conventional setups for its asset class
@@ -97,6 +114,9 @@ export function buildPool(
       family: entry?.family ?? "generated",
       premise: entry?.premise ?? GENERATED_PREMISE,
       caveat: entry?.caveat ?? GENERATED_CAVEAT,
+      indicator: entry?.indicator ?? GENERATED_INDICATOR,
+      timeframe: entry?.timeframe ?? GENERATED_TIMEFRAME,
+      mechanics: entry?.mechanics ?? GENERATED_MECHANICS,
       tradeCount
     });
     return true;
