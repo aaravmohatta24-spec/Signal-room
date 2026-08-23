@@ -272,8 +272,14 @@ function FieldWithIcon({ icon, children }: { icon: React.ReactNode; children: Re
   );
 }
 
-/** Strokes per set. Kept low deliberately — see `.signal-path` in index.css. */
-const PATH_COUNT = 12;
+/**
+ * Strokes per set. Two sets are rendered, so this is half the total.
+ *
+ * Every stroke repaints on every frame — see `.signal-path` in index.css for
+ * why that is unavoidable — so this number is the paint budget for the whole
+ * screen. Eight reads as a full fan while keeping the total at sixteen.
+ */
+const PATH_COUNT = 8;
 
 function FloatingPaths({ position }: { position: number }) {
   const paths = Array.from({ length: PATH_COUNT }, (_, i) => {
@@ -289,7 +295,9 @@ function FloatingPaths({ position }: { position: number }) {
       } ${684 - step * 5 * position} ${875 - step * 6} ${684 - step * 5 * position} ${875 - step * 6}`,
       width: 0.5 + step * 0.03,
       duration: `${22 + (i % 5) * 3}s`,
-      delay: `${i * -1.7}s`
+      delay: `${i * -1.7}s`,
+      // Depth without animating opacity: nearer strokes sit brighter.
+      opacity: (0.14 + (i / PATH_COUNT) * 0.26).toFixed(3)
     };
   });
 
@@ -307,7 +315,8 @@ function FloatingPaths({ position }: { position: number }) {
             style={
               {
                 "--signal-path-duration": path.duration,
-                "--signal-path-delay": path.delay
+                "--signal-path-delay": path.delay,
+                "--signal-path-opacity": path.opacity
               } as CSSProperties
             }
           />

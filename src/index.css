@@ -175,30 +175,36 @@
   }
 
   /*
-   * Drifting background strokes on the auth screen. This is deliberately a CSS
-   * animation: the equivalent JS-driven version ran dozens of concurrent
-   * animations that recalculated stroke geometry every frame, which visibly
-   * stuttered. The browser interpolates these off the main render loop instead.
+   * Drifting background strokes on the auth screen.
+   *
+   * stroke-dashoffset is not a compositable property, so every frame of this
+   * repaints the stroke no matter what is hinted at the browser. An earlier
+   * version carried will-change: stroke-dashoffset, which bought nothing —
+   * will-change only helps transform, opacity and filter — while still
+   * promoting every stroke to its own compositing layer. Two dozen layers the
+   * compositor has to keep, evict and rebuild is a flicker source, not a
+   * performance win, so the hint is gone.
+   *
+   * Opacity used to animate here too. Pairing it with a repainting property on
+   * the same element meant it could not composite either, and two dozen strokes
+   * pulsing out of phase read as a shimmer whenever a frame was missed. Depth
+   * now comes from a fixed per-stroke opacity instead, set from the index, so
+   * the only thing moving is the dash.
    */
   .signal-path {
     stroke-dasharray: 180 620;
+    stroke-opacity: var(--signal-path-opacity, 0.28);
     animation: signal-path-drift var(--signal-path-duration, 26s) linear infinite;
     animation-delay: var(--signal-path-delay, 0s);
-    will-change: stroke-dashoffset;
   }
 }
 
 @keyframes signal-path-drift {
-  0% {
+  from {
     stroke-dashoffset: 800;
-    opacity: 0.12;
   }
-  50% {
-    opacity: 0.42;
-  }
-  100% {
+  to {
     stroke-dashoffset: -800;
-    opacity: 0.12;
   }
 }
 
