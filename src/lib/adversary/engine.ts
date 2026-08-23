@@ -94,11 +94,31 @@ export type Metrics = {
   maxDrawdownTrades: number;
 };
 
-function evaluateEntry(spec: StrategySpec, cache: SignalCache, length: number): Int8Array {
+/**
+ * Entry trigger and the condition a position is held against.
+ *
+ * These are the same series for `greater_than` and `less_than`, where the
+ * condition is a state that persists. They are NOT the same for the crossing
+ * comparators, and conflating them was a real bug: a cross is an event that is
+ * true on exactly one bar, so an `opposite_signal` exit tested against the
+ * trigger fired the bar after entry and every crossover strategy in the
+ * playbook was measuring one-day holds. A golden cross on ten years of SPY
+ * reported zero percent time in market.
+ *
+ * So a cross keeps its event semantics for entry and is held against the state
+ * it crossed into: enter when fast crosses above slow, hold while fast is
+ * above slow, exit when that stops being true.
+ */
+function evaluateEntry(
+  spec: StrategySpec,
+  cache: SignalCache,
+  length: number
+): { trigger: Int8Array; hold: Int8Array } {
   const left = cache.get(spec.entry.left);
   const right = "kind" in spec.entry.right ? cache.get(spec.entry.right) : null;
   const constant = "kind" in spec.entry.right ? 0 : spec.entry.right.constant;
-  const signal = new Int8Array(length);
+  const trigger = new Int8Array(length);
+  const hold = new Int8Array(length);
 
   for (let i = 1; i < length; i++) {
     const l = left[i];
@@ -109,25 +129,29 @@ function evaluateEntry(spec: StrategySpec, cache: SignalCache, length: number): 
     // Warm-up: any NaN input means the signal is not yet defined.
     if (Number.isNaN(l) || Number.isNaN(r) || Number.isNaN(lPrev) || Number.isNaN(rPrev)) continue;
 
-    let active = false;
+    let fires = false;
+    let holds = false;
     switch (spec.entry.comparator) {
       case "greater_than":
-        active = l > r;
+        fires = holds = l > r;
         break;
       case "less_than":
-        active = l < r;
+        fires = holds = l < r;
         break;
       case "crosses_above":
-        active = lPrev <= rPrev && l > r;
+        fires = lPrev <= rPrev && l > r;
+        holds = l > r;
         break;
       case "crosses_below":
-        active = lPrev >= rPrev && l < r;
+        fires = lPrev >= rPrev && l < r;
+        holds = l < r;
         break;
     }
-    signal[i] = active ? 1 : 0;
+    trigger[i] = fires ? 1 : 0;
+    hold[i] = holds ? 1 : 0;
   }
 
-  return signal;
+  return { trigger, hold };
 }
 
 function targetExposure(spec: StrategySpec, cache: SignalCache, index: number): number {
@@ -152,7 +176,7 @@ export function runBacktest(
   cache: SignalCache = new SignalCache(bars)
 ): BacktestResult {
   const n = bars.close.length;
-  const signal = evaluateEntry(spec, cache, n);
+  const { trigger: signal, hold } = evaluateEntry(spec, cache, n);
   const sign: 1 | -1 = spec.entry.direction === "long" ? 1 : -1;
   const costPerSide = (costs.feeBps + costs.slippageBps) / 10_000;
 
@@ -206,7 +230,7 @@ export function runBacktest(
         const giveBack = sign === 1 ? close / reference - 1 : reference / close - 1;
         if (giveBack <= -trailing.pct / 100) exitReason = "trailing_stop";
       }
-      if (!exitReason && usesOpposite && signal[i] === 0) exitReason = "opposite_signal";
+      if (!exitReason && usesOpposite && hold[i] === 0) exitReason = "opposite_signal";
 
       if (exitReason) {
         periodReturn -= Math.abs(position) * costPerSide;
