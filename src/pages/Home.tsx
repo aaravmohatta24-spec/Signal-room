@@ -114,13 +114,13 @@ export default function Home() {
         }
         subtitle={
           user
-            ? "Every tool below is unlocked. Pick a room and start testing — nothing you load here leaves this browser."
+            ? "Every tool below is unlocked. The guide walks the three stages in order; nothing you load here leaves this browser."
             : "Signalroom gives a trading idea a transparent test, a journal, and a reality check—before it gets your money."
         }
         action={
           user ? (
             // FlowButton draws its own pair of sliding arrows, so no icon child.
-            <FlowButton onClick={() => navigate("/strategy-lab")}>Open the strategy lab</FlowButton>
+            <FlowButton onClick={() => navigate("/journal")}>Start here</FlowButton>
           ) : (
             <FlowButton onClick={() => navigate("/signup")}>Create your account</FlowButton>
           )

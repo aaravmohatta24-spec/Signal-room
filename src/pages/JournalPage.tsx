@@ -1,4 +1,6 @@
 import { BookOpen, ChevronRight } from "lucide-react";
+import { Link } from "react-router-dom";
+
 import Layout from "@/components/Layout";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { SignalLine } from "@/components/ui/signal-line";
@@ -136,6 +138,48 @@ export default function JournalPage() {
               <span className="text-sm text-muted-foreground">Nothing survived? Run again for fresh candidates or try another asset</span>
             </li>
           </ul>
+        </ScrollReveal>
+
+        {/* The guide is the landing point from the hero, so it ends by opening
+            the first stage rather than leaving the reader on a bullet list. */}
+        <ScrollReveal variant="settle" className="mt-12">
+          <div className="rounded-[4px] border border-border bg-card">
+            <div className="border-b border-border px-6 py-3 font-mono text-[10px] uppercase tracking-[.14em] text-slate-500">
+              The run order
+            </div>
+
+            <ol className="divide-y divide-border">
+              {[
+                ["01", "Strategy Maker", "Pick an instrument, build a field of candidates.", "/signal-room", true],
+                ["02", "The Adversary", "Race the field. Eight ordeals each, ranked by what survives.", null, false],
+                ["03", "Back Tester", "Set your capital, costs and exits. Read the result.", null, false]
+              ].map(([n, name, what, href, active]) => (
+                <li key={n as string} className="flex items-center gap-4 px-6 py-4">
+                  <span className="font-mono text-[11px] text-signal-soft">{n}</span>
+                  <div className="min-w-0 flex-1">
+                    <div className="text-sm font-medium text-foreground">{name}</div>
+                    <p className="mt-0.5 text-[13px] leading-6 text-muted-foreground">{what}</p>
+                  </div>
+                  {active ? (
+                    <Link
+                      to={href as string}
+                      className="shrink-0 rounded-[3px] border border-signal/70 bg-signal px-3 py-2 font-mono text-[10px] uppercase tracking-[.11em] text-white shadow-[inset_0_1px_0_rgb(255_255_255/0.22)] transition-colors hover:border-signal-violet hover:bg-signal-violet"
+                    >
+                      Open
+                    </Link>
+                  ) : (
+                    <span className="shrink-0 font-mono text-[9px] uppercase tracking-[.12em] text-slate-600">
+                      From stage {String(Number(n) - 1).padStart(2, "0")}
+                    </span>
+                  )}
+                </li>
+              ))}
+            </ol>
+          </div>
+
+          <p className="mt-3 text-[13px] leading-6 text-muted-foreground">
+            Each stage hands the next one its input, so you only ever open the first by hand.
+          </p>
         </ScrollReveal>
       </section>
     </Layout>

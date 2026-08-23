@@ -7,7 +7,6 @@ import ScreenerPage from "@/pages/ScreenerPage";
 import PipelinePage from "@/pages/PipelinePage";
 import BackTesterPage from "@/pages/BackTesterPage";
 import FomoPage from "@/pages/FomoPage";
-import StrategyLabPage from "@/pages/StrategyLabPage";
 import JournalPage from "@/pages/JournalPage";
 import SignUp from "@/pages/SignUp";
 
@@ -25,7 +24,6 @@ export default function App() {
             <Route path="/adversary" element={<AdversaryPage />} />
             <Route path="/noise-lab" element={<NoiseLabPage />} />
             <Route path="/screener" element={<ScreenerPage />} />
-            <Route path="/strategy-lab" element={<StrategyLabPage />} />
             <Route path="/fomo" element={<FomoPage />} />
             <Route path="/journal" element={<JournalPage />} />
             <Route path="/signup" element={<SignUp />} />
