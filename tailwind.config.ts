@@ -46,7 +46,12 @@ export default {
         popover: { DEFAULT: token("popover"), foreground: token("popover-foreground") },
         muted: { DEFAULT: token("muted"), foreground: token("muted-foreground") },
         accent: { DEFAULT: token("accent"), foreground: token("accent-foreground") },
-        signal: { DEFAULT: token("signal"), soft: token("signal-soft") }
+        signal: {
+          DEFAULT: token("signal"),
+          soft: token("signal-soft"),
+          blue: token("signal-blue"),
+          violet: token("signal-violet")
+        }
       }
     }
   },

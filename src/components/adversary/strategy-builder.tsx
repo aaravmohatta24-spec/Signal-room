@@ -108,7 +108,7 @@ export function StrategyBuilder({
                   onClick={() => onChange(entry.build(targetTicker, targetClass))}
                   className={cn(
                     "rounded-lg border px-3 py-2 text-left transition-colors",
-                    active ? "border-signal/60 bg-signal/10" : "border-border hover:border-zinc-600"
+                    active ? "border-signal/60 bg-signal/10" : "border-border hover:border-slate-600"
                   )}
                 >
                   <div className="flex items-center justify-between gap-2">
@@ -154,7 +154,7 @@ export function StrategyBuilder({
                   "rounded-lg border px-3 py-2 text-sm capitalize transition-colors",
                   spec.entry.direction === direction
                     ? "border-signal/60 bg-signal/10 text-foreground"
-                    : "border-border text-muted-foreground hover:border-zinc-600"
+                    : "border-border text-muted-foreground hover:border-slate-600"
                 )}
               >
                 {direction}
@@ -301,7 +301,7 @@ export function StrategyBuilder({
                 onChange={(event) => toggleExit("stop_loss", event.target.checked, 5)}
                 className="h-4 w-4 accent-[rgb(var(--color-signal))]"
               />
-              <label htmlFor="stop-loss" className="flex-1 text-sm text-zinc-300">
+              <label htmlFor="stop-loss" className="flex-1 text-sm text-slate-300">
                 Stop loss
               </label>
               <input
@@ -321,7 +321,7 @@ export function StrategyBuilder({
                 onChange={(event) => toggleExit("take_profit", event.target.checked, 10)}
                 className="h-4 w-4 accent-[rgb(var(--color-signal))]"
               />
-              <label htmlFor="take-profit" className="flex-1 text-sm text-zinc-300">
+              <label htmlFor="take-profit" className="flex-1 text-sm text-slate-300">
                 Take profit
               </label>
               <input

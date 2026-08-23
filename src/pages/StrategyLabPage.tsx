@@ -162,7 +162,7 @@ export default function StrategyLabPage() {
             {!winner ? (
               <ScrollReveal variant="settle" index={2} className="grid h-full min-h-[400px] place-items-center rounded-[28px] border border-border bg-card/50 text-center">
                 <div>
-                  <Activity className="mx-auto text-zinc-700" size={36} />
+                  <Activity className="mx-auto text-slate-700" size={36} />
                   <p className="mt-4 text-sm text-muted-foreground">
                     Configure your race on the left to begin.
                   </p>
@@ -188,7 +188,7 @@ export default function StrategyLabPage() {
                         ) : winner.result.stance.position === "short" ? (
                           <><ArrowDownRight className="text-red-500" /> <span className="text-red-500">SELL</span></>
                         ) : (
-                          <><Minus className="text-zinc-500" /> <span className="text-zinc-500">FLAT</span></>
+                          <><Minus className="text-slate-500" /> <span className="text-slate-500">FLAT</span></>
                         )}
                       </div>
                     </div>

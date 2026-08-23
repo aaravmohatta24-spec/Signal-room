@@ -285,7 +285,7 @@ function AdversaryWorkbench() {
         <ScrollReveal variant="drift" className="mt-6">
           <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-signal/25 bg-signal/[0.06] px-5 py-3">
             <span className="font-mono text-[10px] uppercase tracking-[.16em] text-signal-soft">Search cost</span>
-            <span className="flex-1 text-sm text-zinc-300">
+            <span className="flex-1 text-sm text-slate-300">
               {session.trialCount === 0
                 ? "No strategies searched yet. Your first result will be judged against a single trial."
                 : `${session.trialCount.toLocaleString()} strategies searched in this browser. Your significance threshold has risen accordingly.`}
@@ -338,12 +338,12 @@ function AdversaryWorkbench() {
                         "w-full rounded-xl border px-4 py-3 text-left transition-colors",
                         ticker === series.ticker
                           ? "border-signal/60 bg-signal/10"
-                          : "border-border hover:border-zinc-600"
+                          : "border-border hover:border-slate-600"
                       )}
                     >
                       <div className="flex items-center gap-2">
                         <span className="text-sm font-medium text-foreground">{series.label}</span>
-                        <span className="font-mono text-[10px] text-zinc-600">{series.ticker}</span>
+                        <span className="font-mono text-[10px] text-slate-600">{series.ticker}</span>
                         {!series.isReal && (
                           <span className="rounded-full border border-border px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-[.1em] text-muted-foreground">
                             synthetic
@@ -356,7 +356,7 @@ function AdversaryWorkbench() {
                 </div>
               )}
 
-              <label className="mt-3 flex cursor-pointer items-center gap-3 rounded-xl border border-dashed border-zinc-700 px-4 py-3 transition hover:border-signal/60 hover:bg-signal/5">
+              <label className="mt-3 flex cursor-pointer items-center gap-3 rounded-xl border border-dashed border-slate-700 px-4 py-3 transition hover:border-signal/60 hover:bg-signal/5">
                 <Upload size={16} className="text-signal-soft" />
                 <span className="text-xs leading-5 text-muted-foreground">
                   {uploaded ? `Using ${uploaded.ticker}` : "Or upload your own OHLCV CSV"}
@@ -413,7 +413,7 @@ function AdversaryWorkbench() {
                   <div className="font-mono text-[10px] uppercase tracking-[.16em] text-muted-foreground">
                     02 / Provisional result
                   </div>
-                  <p className="mt-2 max-w-lg text-sm leading-6 text-zinc-300">{describeSpec(spec)}</p>
+                  <p className="mt-2 max-w-lg text-sm leading-6 text-slate-300">{describeSpec(spec)}</p>
                 </div>
                 <span
                   className={cn(
@@ -498,7 +498,7 @@ function AdversaryWorkbench() {
                           <span className={cn("font-mono text-[10px] tracking-[.12em]", style.text)}>{style.label}</span>
                         </summary>
                         <p className="mt-3 text-xs italic leading-5 text-muted-foreground">{result.question}</p>
-                        <p className="mt-2 text-sm leading-6 text-zinc-300">{result.explanation}</p>
+                        <p className="mt-2 text-sm leading-6 text-slate-300">{result.explanation}</p>
                         <div className="mt-4">
                           <AttackChartView chart={result.chart} />
                         </div>
@@ -536,7 +536,7 @@ function AdversaryWorkbench() {
                 {verdict.reasons.length > 0 && (
                   <ul className="mt-5 space-y-2">
                     {verdict.reasons.map((reason) => (
-                      <li key={reason} className="flex gap-2 text-sm leading-6 text-zinc-300">
+                      <li key={reason} className="flex gap-2 text-sm leading-6 text-slate-300">
                         <span className="text-muted-foreground">—</span>
                         {reason}
                       </li>
@@ -548,7 +548,7 @@ function AdversaryWorkbench() {
                   <div className="font-mono text-[10px] uppercase tracking-[.16em] text-muted-foreground">
                     What would have to change
                   </div>
-                  <p className="mt-2 text-sm leading-6 text-zinc-300">{verdict.remedy}</p>
+                  <p className="mt-2 text-sm leading-6 text-slate-300">{verdict.remedy}</p>
                 </div>
 
                 <div className="mt-4 flex flex-wrap gap-2">

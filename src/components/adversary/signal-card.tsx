@@ -20,7 +20,7 @@ import { cn } from "@/lib/utils";
 const STANCE = {
   long: { label: "LONG", icon: ArrowUp, tone: "text-emerald-300", ring: "border-emerald-500/40 bg-emerald-950/25" },
   short: { label: "SHORT", icon: ArrowDown, tone: "text-red-300", ring: "border-red-500/40 bg-red-950/25" },
-  flat: { label: "FLAT", icon: Minus, tone: "text-zinc-300", ring: "border-border bg-muted/40" }
+  flat: { label: "FLAT", icon: Minus, tone: "text-slate-300", ring: "border-border bg-muted/40" }
 } as const;
 
 const VERDICT_COPY: Record<Verdict["status"], { line: string; action: string }> = {
@@ -106,7 +106,7 @@ export function SignalCard({
               </span>
               <span className="text-lg text-muted-foreground">{instrumentLabel}</span>
             </div>
-            <p className="mt-2 text-sm text-zinc-400">
+            <p className="mt-2 text-sm text-slate-400">
               {open ? (
                 <>
                   Held {stance.barsHeld} bar{stance.barsHeld === 1 ? "" : "s"} since {stance.since}
@@ -207,12 +207,12 @@ export function SignalCard({
               <span className="text-sm font-medium text-foreground">{VERDICT_COPY[verdict.status].line}</span>
             </div>
 
-            <p className="mt-2.5 text-sm leading-6 text-zinc-400">{VERDICT_COPY[verdict.status].action}</p>
+            <p className="mt-2.5 text-sm leading-6 text-slate-400">{VERDICT_COPY[verdict.status].action}</p>
 
             {verdict.reasons.length > 0 && (
               <ul className="mt-3 space-y-1.5 border-t border-border pt-3">
                 {verdict.reasons.slice(0, 3).map((reason) => (
-                  <li key={reason} className="flex gap-2 text-xs leading-5 text-zinc-400">
+                  <li key={reason} className="flex gap-2 text-xs leading-5 text-slate-400">
                     <span className="text-muted-foreground">—</span>
                     {reason}
                   </li>

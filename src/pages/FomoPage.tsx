@@ -50,7 +50,7 @@ export default function FomoPage() {
             <div className="font-mono text-[10px] uppercase tracking-[.16em] text-muted-foreground">
               Why this matters
             </div>
-            <ul className="mt-3 space-y-2 text-sm leading-6 text-zinc-400">
+            <ul className="mt-3 space-y-2 text-sm leading-6 text-slate-400">
               <li>• FOMO is often a hindsight trap: it turns a missed move into a reason to chase the next one.</li>
               <li>• This calculator converts that feeling into arithmetic so the risk is visible before the emotion takes over.</li>
               <li>• The numbers are useful as a reality check, not as a buy signal.</li>

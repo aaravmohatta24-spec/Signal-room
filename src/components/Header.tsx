@@ -15,7 +15,7 @@ function HeaderButton({ className, type = "button", ...props }: ButtonHTMLAttrib
     <button
       type={type}
       className={cn(
-        "inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-xs font-medium text-zinc-300 transition-colors hover:border-zinc-600 hover:text-foreground",
+        "inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-xs font-medium text-slate-300 transition-colors hover:border-slate-600 hover:text-foreground",
         className
       )}
       {...props}
@@ -42,7 +42,7 @@ export default function Header() {
   const navigate = useNavigate();
 
   return (
-    <header className="flex h-16 items-center justify-between border-b border-zinc-900">
+    <header className="flex h-16 items-center justify-between border-b border-slate-900">
       <Wordmark />
 
       {/*
@@ -57,7 +57,7 @@ export default function Header() {
       {user ? (
         <div className="flex items-center gap-3">
           <span className="hidden text-xs text-muted-foreground sm:inline">
-            Signed in as <span className="text-zinc-300">{user.name}</span>
+            Signed in as <span className="text-slate-300">{user.name}</span>
           </span>
           <HeaderButton
             onClick={() => {

@@ -17,7 +17,7 @@ export function NumberInput({
     <label className="block text-xs text-muted-foreground">
       {label}
       <div className="mt-2 flex items-center rounded-xl border border-border bg-muted px-3 focus-within:border-signal">
-        <span className="font-mono text-zinc-600">{prefix}</span>
+        <span className="font-mono text-slate-600">{prefix}</span>
         <input
           className="w-full bg-transparent px-1 py-3 font-mono text-sm text-foreground outline-none"
           type="number"

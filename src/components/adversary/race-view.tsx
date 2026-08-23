@@ -171,7 +171,7 @@ export function RaceView() {
                   clearPool();
                   navigate("/signal-room");
                 }}
-                className="rounded-xl border border-border px-4 py-2 text-xs text-muted-foreground transition-colors hover:border-zinc-600 hover:text-foreground"
+                className="rounded-xl border border-border px-4 py-2 text-xs text-muted-foreground transition-colors hover:border-slate-600 hover:text-foreground"
               >
                 Discard field
               </button>
@@ -311,7 +311,7 @@ export function RaceView() {
                         <span
                           className={cn(
                             "font-mono text-sm tabular-nums",
-                            place === 0 ? "text-emerald-300" : "text-zinc-600"
+                            place === 0 ? "text-emerald-300" : "text-slate-600"
                           )}
                         >
                           {String(place + 1).padStart(2, "0")}
@@ -319,7 +319,7 @@ export function RaceView() {
                         {isWinner ? (
                           <Medal size={13} className="text-emerald-300" />
                         ) : c.eliminated ? (
-                          <Skull size={13} className="text-zinc-600" aria-label="eliminated" />
+                          <Skull size={13} className="text-slate-600" aria-label="eliminated" />
                         ) : null}
                         <span className="text-sm font-medium text-foreground">{c.name}</span>
                         <span className="font-mono text-[9px] uppercase tracking-[.1em] text-muted-foreground">
@@ -366,7 +366,7 @@ export function RaceView() {
                   </div>
 
                   {c.causeOfDeath && !isWinner && (
-                    <p className="mt-2 text-xs leading-5 text-zinc-500">Killed by — {c.causeOfDeath}</p>
+                    <p className="mt-2 text-xs leading-5 text-slate-500">Killed by — {c.causeOfDeath}</p>
                   )}
                 </div>
               );

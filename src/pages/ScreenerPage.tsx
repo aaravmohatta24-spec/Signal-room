@@ -177,7 +177,7 @@ export default function ScreenerPage() {
         <ScrollReveal variant="drift" className="mt-6">
           <div className="rounded-2xl border border-signal/25 bg-signal/[0.06] px-5 py-4">
             <div className="font-mono text-[10px] uppercase tracking-[.16em] text-signal-soft">Read this first</div>
-            <p className="mt-2 max-w-3xl text-sm leading-6 text-zinc-300">
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-300">
               This is a search over {totalStrategies.toLocaleString()} strategies. The winner will look good{" "}
               <em>by construction</em> — that is what searching does. Every candidate is therefore ranked by a survival
               score built from the attacks, its Sharpe is deflated by the full size of the search, and all
@@ -195,7 +195,7 @@ export default function ScreenerPage() {
             <div className="mt-4 space-y-4">
               {grouped.map(([assetClass, list]) => (
                 <div key={assetClass}>
-                  <div className="font-mono text-[9px] uppercase tracking-[.14em] text-zinc-600">
+                  <div className="font-mono text-[9px] uppercase tracking-[.14em] text-slate-600">
                     {ASSET_CLASS_LABEL[assetClass]}
                   </div>
                   <div className="mt-2 flex flex-wrap gap-2">
@@ -209,11 +209,11 @@ export default function ScreenerPage() {
                           "rounded-full border px-3.5 py-2 text-xs transition-colors disabled:opacity-50",
                           tickers.includes(instrument.ticker)
                             ? "border-signal/60 bg-signal/10 text-foreground"
-                            : "border-border text-muted-foreground hover:border-zinc-600"
+                            : "border-border text-muted-foreground hover:border-slate-600"
                         )}
                       >
                         <span className="font-medium">{instrument.label}</span>
-                        <span className="ml-1.5 font-mono text-[10px] text-zinc-600">{instrument.ticker}</span>
+                        <span className="ml-1.5 font-mono text-[10px] text-slate-600">{instrument.ticker}</span>
                       </button>
                     ))}
                   </div>
@@ -289,7 +289,7 @@ export default function ScreenerPage() {
                 ))}
               </div>
               {summary.SURVIVED === 0 && (
-                <p className="mt-3 text-sm leading-6 text-zinc-300">
+                <p className="mt-3 text-sm leading-6 text-slate-300">
                   Nothing survived. That is the most common outcome and it is not a bug — of{" "}
                   {candidates.length.toLocaleString()} strategies generated, none cleared the cost of having searched
                   for them. This is what the multiple-testing penalty looks like when it is actually applied.
@@ -308,7 +308,7 @@ export default function ScreenerPage() {
                       "rounded-full border px-3 py-1.5 text-xs transition-colors",
                       familyFilter === family
                         ? "border-signal/60 bg-signal/10 text-foreground"
-                        : "border-border text-muted-foreground hover:border-zinc-600"
+                        : "border-border text-muted-foreground hover:border-slate-600"
                     )}
                   >
                     {family === "all" ? "All signals" : (SIGNAL_LABEL[family] ?? family)}
@@ -333,7 +333,7 @@ export default function ScreenerPage() {
                     <div className="flex flex-wrap items-start justify-between gap-4">
                       <div className="min-w-0 flex-1">
                         <div className="flex flex-wrap items-center gap-2">
-                          <span className="font-mono text-[10px] uppercase tracking-[.12em] text-zinc-600">
+                          <span className="font-mono text-[10px] uppercase tracking-[.12em] text-slate-600">
                             #{index + 1}
                           </span>
                           <span className="rounded-full border border-border px-2 py-0.5 font-mono text-[10px] uppercase tracking-[.1em] text-muted-foreground">
@@ -351,7 +351,7 @@ export default function ScreenerPage() {
                             {candidate.verdict}
                           </span>
                         </div>
-                        <p className="mt-2 text-sm leading-6 text-zinc-300">{describeSpec(candidate.spec)}</p>
+                        <p className="mt-2 text-sm leading-6 text-slate-300">{describeSpec(candidate.spec)}</p>
                       </div>
 
                       <div className="text-right">

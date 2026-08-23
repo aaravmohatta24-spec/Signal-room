@@ -132,7 +132,7 @@ export default function PipelinePage() {
             <div className="space-y-4">
               {grouped.map(([assetClass, list]) => (
                 <div key={assetClass}>
-                  <div className="font-mono text-[9px] uppercase tracking-[.14em] text-zinc-600">
+                  <div className="font-mono text-[9px] uppercase tracking-[.14em] text-slate-600">
                     {ASSET_CLASS_LABEL[assetClass]} · {list.length}
                   </div>
                   <div className="mt-2 flex flex-wrap gap-1.5">
@@ -148,7 +148,7 @@ export default function PipelinePage() {
                           "min-h-[36px] rounded-full border px-3 py-1.5 font-mono text-[11px] transition-colors",
                           ticker === i.ticker
                             ? "border-signal/60 bg-signal/10 text-foreground"
-                            : "border-border text-muted-foreground hover:border-zinc-600"
+                            : "border-border text-muted-foreground hover:border-slate-600"
                         )}
                       >
                         {i.ticker}
@@ -160,7 +160,7 @@ export default function PipelinePage() {
             </div>
 
             <div className="mt-5 border-t border-border pt-4">
-              <div className="font-mono text-[9px] uppercase tracking-[.14em] text-zinc-600">Field size</div>
+              <div className="font-mono text-[9px] uppercase tracking-[.14em] text-slate-600">Field size</div>
               <div className="mt-2 flex flex-wrap gap-2">
                 {COUNTS.map((n) => (
                   <button
@@ -170,7 +170,7 @@ export default function PipelinePage() {
                       "min-h-[40px] rounded-full border px-4 py-2 text-xs transition-colors",
                       count === n
                         ? "border-signal/60 bg-signal/10 text-foreground"
-                        : "border-border text-muted-foreground hover:border-zinc-600"
+                        : "border-border text-muted-foreground hover:border-slate-600"
                     )}
                   >
                     {n} strategies
@@ -239,7 +239,7 @@ export default function PipelinePage() {
                       >
                         {FAMILY_LABEL[candidate.family] ?? candidate.family}
                       </span>
-                      <span className="font-mono text-[9px] uppercase tracking-[.1em] text-zinc-600">
+                      <span className="font-mono text-[9px] uppercase tracking-[.1em] text-slate-600">
                         {candidate.spec.entry.direction} · {candidate.tradeCount} trades
                       </span>
                     </div>
@@ -255,15 +255,15 @@ export default function PipelinePage() {
 
                   <dl className="mt-4 grid gap-x-8 gap-y-3 sm:grid-cols-2">
                     <div className="sm:col-span-2">
-                      <dt className="font-mono text-[9px] uppercase tracking-[.12em] text-zinc-600">Rules</dt>
+                      <dt className="font-mono text-[9px] uppercase tracking-[.12em] text-slate-600">Rules</dt>
                       <dd className="mt-1 text-sm leading-6 text-foreground/90">{candidate.description}</dd>
                     </div>
                     <div>
-                      <dt className="font-mono text-[9px] uppercase tracking-[.12em] text-zinc-600">Sizing</dt>
+                      <dt className="font-mono text-[9px] uppercase tracking-[.12em] text-slate-600">Sizing</dt>
                       <dd className="mt-1 text-sm leading-6 text-muted-foreground">{sizingText(candidate)}</dd>
                     </div>
                     <div>
-                      <dt className="font-mono text-[9px] uppercase tracking-[.12em] text-zinc-600">Premise</dt>
+                      <dt className="font-mono text-[9px] uppercase tracking-[.12em] text-slate-600">Premise</dt>
                       <dd className="mt-1 text-sm leading-6 text-muted-foreground">{candidate.premise}</dd>
                     </div>
                     <div className="sm:col-span-2">

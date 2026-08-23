@@ -115,7 +115,7 @@ export default function NoiseLabPage() {
                         "rounded-full border px-4 py-2 text-xs transition-colors disabled:opacity-50",
                         ticker === series.ticker
                           ? "border-signal/60 bg-signal/10 text-foreground"
-                          : "border-border text-muted-foreground hover:border-zinc-600"
+                          : "border-border text-muted-foreground hover:border-slate-600"
                       )}
                     >
                       {series.label}
@@ -190,7 +190,7 @@ export default function NoiseLabPage() {
             <ScrollReveal variant="settle" className="mt-5">
               <div className="rounded-[24px] border border-signal/30 bg-signal/[0.06] p-6">
                 <div className="font-mono text-[10px] uppercase tracking-[.16em] text-signal-soft">What just happened</div>
-                <p className="mt-3 max-w-3xl text-[15px] leading-7 text-zinc-200">
+                <p className="mt-3 max-w-3xl text-[15px] leading-7 text-slate-200">
                   The right-hand curve was found on data with{" "}
                   <strong className="font-semibold text-foreground">no structure at all</strong> — a random walk with
                   zero drift, where no edge can exist by construction. It still produced a Sharpe of{" "}
@@ -198,7 +198,7 @@ export default function NoiseLabPage() {
                   rising equity curve, because searching {SWEEP_SIZE.toLocaleString()} strategies and keeping the best
                   one is enough to manufacture that on its own.
                 </p>
-                <p className="mt-3 max-w-3xl text-[15px] leading-7 text-zinc-200">
+                <p className="mt-3 max-w-3xl text-[15px] leading-7 text-slate-200">
                   This is why an equity curve is not evidence. The question is never "does it look good" but "how many
                   did you try before this one looked good" — which is exactly what the Adversary's first attack charges
                   you for.

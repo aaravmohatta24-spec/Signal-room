@@ -61,7 +61,7 @@ function Field({
 }) {
   return (
     <label className="block">
-      <span className="font-mono text-[9px] uppercase tracking-[.14em] text-zinc-500">{label}</span>
+      <span className="font-mono text-[9px] uppercase tracking-[.14em] text-slate-500">{label}</span>
       <span className="mt-1.5 flex items-center gap-2 rounded-lg border border-border bg-background px-3 py-2 focus-within:border-signal/50">
         <input
           type="number"
@@ -74,7 +74,7 @@ function Field({
         />
         {suffix && <span className="shrink-0 text-xs text-muted-foreground">{suffix}</span>}
       </span>
-      {hint && <span className="mt-1 block text-[11px] leading-4 text-zinc-600">{hint}</span>}
+      {hint && <span className="mt-1 block text-[11px] leading-4 text-slate-600">{hint}</span>}
     </label>
   );
 }
@@ -297,7 +297,7 @@ export default function BackTesterPage() {
         )}
 
         <div className="mt-6 rounded-[16px] border border-border bg-card/60 p-4">
-          <div className="font-mono text-[9px] uppercase tracking-[.14em] text-zinc-500">Strategy under test</div>
+          <div className="font-mono text-[9px] uppercase tracking-[.14em] text-slate-500">Strategy under test</div>
           <div className="mt-1.5 text-sm font-medium text-foreground">{spec.name}</div>
           <p className="mt-1 text-xs leading-5 text-muted-foreground">{describeSpec(spec)}</p>
         </div>
@@ -309,7 +309,7 @@ export default function BackTesterPage() {
             <div className="mt-3 space-y-3">
               {grouped.map(([assetClass, list]) => (
                 <div key={assetClass}>
-                  <div className="font-mono text-[9px] uppercase tracking-[.14em] text-zinc-600">
+                  <div className="font-mono text-[9px] uppercase tracking-[.14em] text-slate-600">
                     {ASSET_CLASS_LABEL[assetClass]}
                   </div>
                   <div className="mt-2 flex flex-wrap gap-2">
@@ -322,7 +322,7 @@ export default function BackTesterPage() {
                           "min-h-[40px] rounded-full border px-3.5 py-1.5 text-xs transition-colors",
                           ticker === i.ticker
                             ? "border-signal/60 bg-signal/10 text-foreground"
-                            : "border-border text-muted-foreground hover:border-zinc-600"
+                            : "border-border text-muted-foreground hover:border-slate-600"
                         )}
                       >
                         {i.label}
@@ -532,7 +532,7 @@ export default function BackTesterPage() {
                   <span className="font-mono text-[10px] uppercase tracking-[.16em] text-muted-foreground">
                     Trade log
                   </span>
-                  <span className="font-mono text-[10px] text-zinc-600">
+                  <span className="font-mono text-[10px] text-slate-600">
                     {result.result.trades.length} trades · showing first 50
                   </span>
                 </div>
@@ -556,7 +556,7 @@ export default function BackTesterPage() {
                     <tbody>
                       {result.result.trades.slice(0, 50).map((t, i) => (
                         <tr key={`${t.entryIndex}-${i}`} className="border-b border-border/60 last:border-b-0">
-                          <td className="px-4 py-2 font-mono text-[11px] text-zinc-600">{i + 1}</td>
+                          <td className="px-4 py-2 font-mono text-[11px] text-slate-600">{i + 1}</td>
                           <td className="px-4 py-2 text-muted-foreground">{result.bars.dates[t.entryIndex]}</td>
                           <td className="px-4 py-2 text-muted-foreground">{result.bars.dates[t.exitIndex]}</td>
                           <td className="px-4 py-2 text-foreground">{t.direction === 1 ? "Long" : "Short"}</td>
@@ -571,7 +571,7 @@ export default function BackTesterPage() {
                           >
                             {pct(t.returnPct)}
                           </td>
-                          <td className="px-4 py-2 text-xs text-zinc-500">{t.reason.replace(/_/g, " ")}</td>
+                          <td className="px-4 py-2 text-xs text-slate-500">{t.reason.replace(/_/g, " ")}</td>
                         </tr>
                       ))}
                     </tbody>

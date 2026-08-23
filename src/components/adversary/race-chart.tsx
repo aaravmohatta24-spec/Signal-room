@@ -98,7 +98,7 @@ export function RaceChart({ runners, className }: { runners: Runner[]; className
           stroke="currentColor"
           strokeWidth="0.3"
           strokeDasharray="1.5 1.5"
-          className="text-zinc-500"
+          className="text-slate-500"
         />
 
         {ordered.map((p) => {
@@ -119,7 +119,7 @@ export function RaceChart({ runners, className }: { runners: Runner[]; className
                   p.isWinner
                     ? "stroke-emerald-400"
                     : p.eliminated
-                      ? "stroke-zinc-600"
+                      ? "stroke-slate-600"
                       : "stroke-signal-soft"
                 )}
                 opacity={dim ? 0.15 : p.isWinner ? 1 : p.eliminated ? 0.45 : 0.75}
@@ -143,7 +143,7 @@ export function RaceChart({ runners, className }: { runners: Runner[]; className
               p.isWinner
                 ? "border-emerald-500/50 bg-emerald-950/30 text-emerald-300"
                 : p.eliminated
-                  ? "border-border text-zinc-500 hover:border-zinc-600"
+                  ? "border-border text-slate-500 hover:border-slate-600"
                   : "border-signal/30 text-signal-soft hover:border-signal/60"
             )}
           >
@@ -152,7 +152,7 @@ export function RaceChart({ runners, className }: { runners: Runner[]; className
         ))}
       </div>
 
-      <div className="mt-2 flex items-baseline justify-between font-mono text-[9px] uppercase tracking-[.12em] text-zinc-600">
+      <div className="mt-2 flex items-baseline justify-between font-mono text-[9px] uppercase tracking-[.12em] text-slate-600">
         <span>
           {active ? active.name : "Log scale · dashed line is break-even"}
         </span>

@@ -24,7 +24,7 @@ export default function Layout({ children, showBackLink = false }: { children: R
 
       <main>{children}</main>
 
-      <footer className="flex flex-col justify-between gap-3 border-t border-zinc-900 py-5 font-mono text-[10px] uppercase tracking-[.12em] text-zinc-600 md:flex-row">
+      <footer className="flex flex-col justify-between gap-3 border-t border-slate-900 py-5 font-mono text-[10px] uppercase tracking-[.12em] text-slate-600 md:flex-row">
         <span>Signalroom / research before risk</span>
         <span>Educational only · no live trading</span>
       </footer>

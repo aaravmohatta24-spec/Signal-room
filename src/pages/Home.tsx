@@ -74,7 +74,7 @@ function OfferingRow({ offering, index }: { offering: Offering; index: number })
             {offering.capabilities.map((capability, capabilityIndex) => (
               <li
                 key={capability}
-                className="flex gap-4 border-b border-border/60 py-3 text-[13px] leading-6 text-zinc-400 transition-colors duration-300 last:border-b-0 group-hover:border-border"
+                className="flex gap-4 border-b border-border/60 py-3 text-[13px] leading-6 text-slate-400 transition-colors duration-300 last:border-b-0 group-hover:border-border"
               >
                 <span className="font-mono text-[10px] leading-6 text-signal/70">
                   {String(capabilityIndex + 1).padStart(2, "0")}
