@@ -5,3 +5,17 @@ dist/
 .env.*
 !.env.example
 scripts/.cache/
+
+# AI assistant scaffolding. Six assistants each vendored an identical copy of
+# the same Motion skill; none of it is read by the app, the build or the
+# scripts. Ignored so a tool regenerating its own folder does not put ~320 KB
+# of duplicated documentation back into the repo.
+.amp/
+.claude/
+.copilot/
+.cursor/
+.gemini/
+.opencode/
+.vscode/
+.mcp.json
+opencode.json
