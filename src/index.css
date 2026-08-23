@@ -35,10 +35,10 @@
     --color-popover-foreground: 242 240 236;
     --color-border: 42 39 35;
     --color-input: 42 39 35;
-    --color-ring: 236 78 2;
+    --color-ring: 29 78 216;
     --color-destructive: 248 113 113;
-    --color-signal: 236 78 2;
-    --color-signal-soft: 255 178 141;
+    --color-signal: 29 78 216;
+    --color-signal-soft: 147 197 253;
 
     color-scheme: dark;
     font-family: "Libre Franklin", "Helvetica Neue", Arial, sans-serif;
@@ -60,11 +60,11 @@
     min-width: 320px;
     background-color: rgb(var(--color-background));
     background-image:
-      /* warm key light from above */
-      radial-gradient(115% 62% at 50% -18%, rgba(236, 78, 2, 0.15), transparent 62%),
-      /* cool counterpoint so the warmth reads as deliberate, not a wash */
-      radial-gradient(70% 48% at 88% 4%, rgba(64, 104, 160, 0.09), transparent 68%),
-      radial-gradient(90% 55% at 8% 22%, rgba(120, 60, 30, 0.08), transparent 70%);
+      /* key light from above, keyed to the accent */
+      radial-gradient(115% 62% at 50% -18%, rgba(37, 99, 235, 0.16), transparent 62%),
+      /* a cooler, deeper counterpoint so the wash has some depth to it */
+      radial-gradient(70% 48% at 88% 4%, rgba(30, 58, 138, 0.11), transparent 68%),
+      radial-gradient(90% 55% at 8% 22%, rgba(51, 65, 110, 0.09), transparent 70%);
     background-attachment: fixed;
   }
 

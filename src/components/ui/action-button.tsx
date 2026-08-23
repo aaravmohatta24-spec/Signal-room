@@ -29,7 +29,7 @@ export function ActionButton({
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
         "disabled:cursor-not-allowed disabled:opacity-50",
         size === "sm" ? "h-9 px-3 text-xs" : "h-11 px-5 text-sm",
-        variant === "primary" && "bg-signal text-white hover:bg-[#ff6330] disabled:bg-muted disabled:text-muted-foreground",
+        variant === "primary" && "bg-signal text-white hover:bg-[#2563eb] disabled:bg-muted disabled:text-muted-foreground",
         variant === "secondary" && "border border-border bg-muted text-foreground hover:border-zinc-600 hover:bg-accent",
         variant === "ghost" && "text-muted-foreground hover:bg-accent hover:text-foreground",
         className

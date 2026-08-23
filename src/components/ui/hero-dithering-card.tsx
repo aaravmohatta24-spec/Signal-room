@@ -33,7 +33,7 @@ export function HeroPanel({
             <div className="pointer-events-none absolute inset-0 z-0 opacity-45 mix-blend-screen">
               <Dithering
                 colorBack="#00000000"
-                colorFront="#EC4E02"
+                colorFront="#2563EB"
                 shape="warp"
                 type="4x4"
                 speed={isHovered ? 0.6 : 0.2}
